@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 // Keep the site URL in sync with src/config/site.ts.
 export default defineConfig({
   site: 'https://socialmagent.online',
+  output: 'static',
   trailingSlash: 'always',
   integrations: [
     sitemap({
