@@ -1,0 +1,218 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import BlogCard from '../components/BlogCard.astro';
+import founderPhoto from '../assets/images/founder-placeholder.jpg';
+import { site } from '../config/site';
+import { getPublishedPosts } from '../lib/blog';
+
+const posts = await getPublishedPosts();
+const latest = posts.slice(0, 3);
+---
+
+<BaseLayout
+  title={`${site.name} — ${site.tagline}`}
+  description={site.description}
+  brandSuffix={false}
+>
+  <!-- Hero ---------------------------------------------------------------- -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Digital marketing · social · analytics</p>
+        <h1 class="hero-title">
+          Marketing and analytics careers,{' '}
+          <span class="accent">made practical.</span>
+        </h1>
+        <p class="lede">
+          Social Magent is a new home for free resources, honest training and
+          fair hiring in digital marketing, social media and marketing analytics.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="/resources/">Explore free resources</a>
+          <a class="button button-secondary" href="/talent-network/">
+            Join the talent network
+          </a>
+        </div>
+        <ul class="hero-points">
+          <li>Free resources, no signup wall on the basics</li>
+          <li>Candidates are never charged a fee</li>
+          <li>No invented results or client logos</li>
+        </ul>
+      </div>
+
+      <div class="hero-card">
+        <NewsletterSignup
+          id="hero-newsletter-email"
+          heading="The useful bits, by email"
+          text="Occasional practical notes on marketing, analytics and careers. No noise, no daily newsletter."
+          compact
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Three audience paths ------------------------------------------------ -->
+  <section class="section section-divider" aria-labelledby="paths-heading">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Start here</p>
+          <h2 id="paths-heading">Choose your next step</h2>
+          <p>
+            The same brand serves three different needs. Pick the one that fits
+            where you are right now.
+          </p>
+        </div>
+      </div>
+
+      <div class="path-grid">
+        <article class="path-card">
+          <p class="path-label">01 / Learn</p>
+          <h3>Build practical skills</h3>
+          <p>
+            Free guides, worksheets and a newsletter that explains the work in
+            plain language, without the guru theatre.
+          </p>
+          <a class="text-link" href="/resources/">Browse free resources →</a>
+        </article>
+
+        <article class="path-card">
+          <p class="path-label">02 / Get hired</p>
+          <h3>Join the talent network</h3>
+          <p>
+            Share your experience and what you are looking for. If a role fits,
+            we will get in touch. You are never charged a fee.
+          </p>
+          <a class="text-link" href="/talent-network/">Join the network →</a>
+        </article>
+
+        <article class="path-card">
+          <p class="path-label">03 / Hire talent</p>
+          <h3>Brief us on a role</h3>
+          <p>
+            Tell us the role, the skills and the timeline. We will discuss the
+            brief honestly before any shortlist is promised.
+          </p>
+          <a class="text-link" href="/hire-talent/">Start a hiring brief →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- What we do ---------------------------------------------------------- -->
+  <section class="section section-divider" aria-labelledby="what-heading">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">What we do</p>
+        <h2 id="what-heading">One brand, three practical jobs</h2>
+        <p class="lede">
+          Social Magent is being built in stages: useful resources first,
+          training next, and a recruitment practice that treats candidates
+          fairly.
+        </p>
+        <div class="note-strip">
+          <p>
+            This is a new brand. We are starting with resources and real
+            conversations. Training programmes, employer partnerships and any
+            results will only be described here when they genuinely exist.
+          </p>
+        </div>
+      </div>
+
+      <ul class="pillar-list">
+        <li class="pillar">
+          <h3>Resources and newsletter</h3>
+          <p>
+            Templates, checklists and explainers for people learning the craft
+            or looking for their next role.
+          </p>
+        </li>
+        <li class="pillar">
+          <h3>Training</h3>
+          <p>
+            Practical learning is in development. The aim is to teach the work
+            people actually do, not just the vocabulary around it.
+          </p>
+        </li>
+        <li class="pillar">
+          <h3>Talent and hiring</h3>
+          <p>
+            Candidates can join the network at no cost. Employers can brief us
+            on roles in digital marketing, social media and analytics.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Latest posts -------------------------------------------------------- -->
+  <section class="section section-divider" aria-labelledby="latest-heading">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">From the blog</p>
+          <h2 id="latest-heading">Latest useful reads</h2>
+          <p>
+            Practical notes on planning, analytics and building a marketing
+            career.
+          </p>
+        </div>
+        <a class="text-link" href="/blog/">All articles →</a>
+      </div>
+
+      <div class="post-grid">
+        {
+          latest.map((post) => (
+            <BlogCard post={post} headingLevel="h3" />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder intro ------------------------------------------------------- -->
+  <section class="section section-divider" aria-labelledby="founder-heading">
+    <div class="container founder">
+      <div class="founder-photo">
+        {/* TODO: Replace src/assets/images/founder-placeholder.jpg with your photo. */}
+        <Image
+          src={founderPhoto}
+          alt={`Placeholder portrait for ${site.founder.name}`}
+          width={600}
+          height={600}
+          widths={[300, 480, 600]}
+          sizes="(max-width: 900px) 300px, 300px"
+          format="webp"
+          quality={82}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div>
+        <p class="eyebrow">The person behind it</p>
+        <h2 id="founder-heading">A note from the founder</h2>
+        <p class="founder-role">{site.founder.name} · {site.founder.role}</p>
+        <p class="lede">{site.founder.shortBio}</p>
+        <p>
+          Social Magent is independent and new. That means no borrowed
+          testimonials, no logo wall and no pretend case studies — just useful
+          work, clearly labelled.
+        </p>
+        <a class="text-link" href="/about/">Read the full story →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter ---------------------------------------------------------- -->
+  <section class="section" aria-label="Newsletter signup">
+    <div class="container">
+      <NewsletterSignup
+        id="home-newsletter-email"
+        heading="One useful email, now and then"
+        text="Practical notes on marketing, analytics and careers, plus new resources when they are ready."
+      />
+    </div>
+  </section>
+</BaseLayout>

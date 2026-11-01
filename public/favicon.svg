@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Social Magent">
+  <rect width="64" height="64" rx="14" fill="#17141f"/>
+  <path d="M14 46V20l18 17 18-17v26" fill="none" stroke="#faf6f0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="50" cy="46" r="6" fill="#a8145b"/>
+</svg>

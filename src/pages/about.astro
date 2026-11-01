@@ -1,0 +1,210 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import founderPhoto from '../assets/images/founder-placeholder.jpg';
+import { site } from '../config/site';
+
+const storyParagraphs = site.founder.longBio
+  .split(/\n\s*\n/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean);
+---
+
+<BaseLayout
+  title="About"
+  description={`Why ${site.name} exists, how the brand works, and what it is and is not yet.`}
+  crumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'About' },
+  ]}
+>
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <p class="eyebrow">About</p>
+      <h1>A practical home for marketing and analytics careers.</h1>
+      <p class="lede">
+        {site.name} is a new, independent brand for people who want to learn
+        digital marketing, social media and marketing analytics — and for
+        employers who want to hire them fairly.
+      </p>
+    </div>
+  </section>
+
+  <!-- Founder story ------------------------------------------------------- -->
+  <section class="section-tight" aria-labelledby="story-heading">
+    <div class="container founder">
+      <div class="founder-photo">
+        {/* TODO: Replace src/assets/images/founder-placeholder.jpg with your photo. */}
+        <Image
+          src={founderPhoto}
+          alt={`Placeholder portrait for ${site.founder.name}`}
+          width={600}
+          height={600}
+          widths={[300, 480, 600]}
+          sizes="(max-width: 900px) 300px, 300px"
+          format="webp"
+          quality={82}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div>
+        <p class="eyebrow">Founder story</p>
+        <h2 id="story-heading">{site.founder.name}</h2>
+        <p class="founder-role">{site.founder.role}, {site.name}</p>
+        {storyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+        {/* TODO: Personalise the founder story in src/config/site.ts. */}
+        <a class="text-link" href={`mailto:${site.email}`}>Say hello →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission ------------------------------------------------------------- -->
+  <section class="section section-divider" aria-labelledby="mission-heading">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Mission</p>
+        <h2 id="mission-heading">Make the work understandable, and the path clearer.</h2>
+      </div>
+      <div>
+        <p class="lede">
+          Marketing careers are often explained with jargon, vague advice or a
+          promise that sounds too good to check. We want to be the opposite:
+          specific, useful and honest about what we know and what we do not.
+        </p>
+        <p>
+          That means free resources that respect your time, training that
+          teaches the actual work, and hiring conversations that do not treat
+          candidates as a revenue stream.
+        </p>
+        <p>
+          It also means restraint. If we do not have evidence for a claim, a
+          client logo or a result, we will not put it on the site.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -------------------------------------------------------- -->
+  <section class="section section-divider" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">How the brand works</p>
+          <h2 id="how-heading">Learn, practise, get matched, hire</h2>
+          <p>
+            Four connected parts of the same idea: make marketing talent easier
+            to develop and easier to trust.
+          </p>
+        </div>
+      </div>
+
+      <ol class="process-grid">
+        <li class="process-step">
+          <span class="process-number" aria-hidden="true">01</span>
+          <h3>Learn</h3>
+          <p>
+            Start with free guides, worksheets and the newsletter. No paid wall
+            on the basics.
+          </p>
+        </li>
+        <li class="process-step">
+          <span class="process-number" aria-hidden="true">02</span>
+          <h3>Practise</h3>
+          <p>
+            Apply the ideas to small, real briefs. Training programmes are being
+            developed carefully, not rushed to market.
+          </p>
+        </li>
+        <li class="process-step">
+          <span class="process-number" aria-hidden="true">03</span>
+          <h3>Get matched</h3>
+          <p>
+            Candidates join the talent network for free. We contact people when
+            a genuine brief fits their skills.
+          </p>
+        </li>
+        <li class="process-step">
+          <span class="process-number" aria-hidden="true">04</span>
+          <h3>Hire</h3>
+          <p>
+            Employers brief us on the role. We agree the process and terms in
+            writing before work begins.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Honest status ------------------------------------------------------- -->
+  <section class="section section-divider" aria-labelledby="status-heading">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The honest version</p>
+          <h2 id="status-heading">What we are and aren't yet</h2>
+        </div>
+      </div>
+
+      <div class="honest-grid">
+        <div class="honest-card is-are">
+          <h2>What we are</h2>
+          <ul>
+            <li>A new, independent brand in digital marketing and analytics talent.</li>
+            <li>A free resource hub and a newsletter, with more being added.</li>
+            <li>A talent network that never charges candidates a fee.</li>
+            <li>An employer contact for marketing and analytics hiring briefs.</li>
+            <li>Clear about what is live, what is being built and what is not claimed.</li>
+          </ul>
+        </div>
+        <div class="honest-card is-not">
+          <h2>What we are not yet</h2>
+          <ul>
+            <li>A large agency, a university or an accredited training provider.</li>
+            <li>A placement guarantee. No one can honestly promise a job.</li>
+            <li>A finished training catalogue — programmes are in development.</li>
+            <li>A site with client logos, testimonials or performance statistics we have not earned.</li>
+            <li>A replacement for your own legal, career or financial advice.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Affiliate disclosure ------------------------------------------------ -->
+  <section class="section section-divider" aria-labelledby="disclosure-heading">
+    <div class="container">
+      <div class="card">
+        <p class="eyebrow">Affiliate and advertising disclosure</p>
+        <h2 id="disclosure-heading">How we handle commercial links</h2>
+        <p>
+          Some future resources may include affiliate links, sponsored
+          placements or advertising. If that happens, we will label the
+          commercial relationship clearly and near the link — not in a footnote
+          nobody reads.
+        </p>
+        <p>
+          We do not accept payment in exchange for a positive review, a fake
+          testimonial or a claim we cannot support. At launch, this site does not
+          contain affiliate links or advertising. If that changes, this page and
+          the relevant resource will say so.
+        </p>
+        <p class="muted">
+          Questions about this? Email
+          <a href={`mailto:${site.email}`}>{site.email}</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="Newsletter signup">
+    <div class="container">
+      <NewsletterSignup
+        id="about-newsletter-email"
+        heading="Follow what we build"
+        text="Get new resources and practical notes as the brand grows. Occasional emails only."
+      />
+    </div>
+  </section>
+</BaseLayout>

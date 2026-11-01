@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import Pagination from '../../components/Pagination.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import {
+  collectTags,
+  getPublishedPosts,
+  POSTS_PER_PAGE,
+} from '../../lib/blog';
+
+const allPosts = await getPublishedPosts();
+const tags = collectTags(allPosts);
+const posts = allPosts.slice(0, POSTS_PER_PAGE);
+const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Practical notes on digital marketing, social media, marketing analytics and building a career in the field."
+  crumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Blog' },
+  ]}
+>
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <p class="eyebrow">The blog</p>
+      <h1>Practical notes for marketing and analytics careers.</h1>
+      <p class="lede">
+        Clear explanations, useful checklists and honest reflections on the
+        work. No recycled hot takes, no invented results.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <TagFilter tags={tags} />
+
+      <div class="post-grid post-grid-2">
+        {
+          posts.map((post) => (
+            <BlogCard post={post} headingLevel="h2" />
+          ))
+        }
+      </div>
+
+      <Pagination currentPage={1} totalPages={totalPages} />
+    </div>
+  </section>
+</BaseLayout>

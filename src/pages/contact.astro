@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormNote from '../components/FormNote.astro';
+import { site } from '../config/site';
+
+const endpoint = site.forms.contactEndpoint;
+const fallback = `mailto:${site.email}?subject=${encodeURIComponent(
+  'Website enquiry',
+)}`;
+const action = endpoint || fallback;
+const isFallback = endpoint.length === 0;
+---
+
+<BaseLayout
+  title="Contact"
+  description={`Contact ${site.name} about free resources, training, hiring or joining the talent network.`}
+  crumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Contact' },
+  ]}
+>
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <p class="eyebrow">Contact</p>
+      <h1>Ask a question or say hello.</h1>
+      <p class="lede">
+        Questions about a resource, a role, training or the talent network?
+        Email is the quickest route. Use the form if you prefer.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container contact-grid">
+      <div class="contact-card">
+        <h2>Direct contact</h2>
+        <ul class="contact-list">
+          <li>
+            <strong>Email</strong>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <strong>LinkedIn</strong>
+            {site.social.linkedin ? (
+              <a href={site.social.linkedin} rel="me noopener noreferrer" target="_blank">
+                Connect on LinkedIn
+              </a>
+            ) : (
+              <span class="linkedin-pending">
+                LinkedIn profile coming soon.
+                {/* TODO: Add the LinkedIn URL in src/config/site.ts. */}
+              </span>
+            )}
+          </li>
+          <li>
+            <strong>Response time</strong>
+            <span class="muted">
+              Usually within a few working days. We are a small, new brand, so
+              thank you for your patience.
+            </span>
+          </li>
+        </ul>
+
+        <p class="form-privacy">
+          For candidate enquiries, you can also
+          <a href="/talent-network/">join the talent network</a>. We never charge
+          candidates a fee.
+        </p>
+      </div>
+
+      <div class="form-card">
+        <FormNote endpoint={endpoint} subject="Website enquiry" />
+
+        <form
+          action={action}
+          method="post"
+          enctype={isFallback ? 'text/plain' : undefined}
+        >
+          <input type="hidden" name="_subject" value="New website enquiry" />
+          <div class="honeypot" aria-hidden="true">
+            <label for="contact-gotcha">Leave this field empty</label>
+            <input id="contact-gotcha" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="contact-name">Name</label>
+              <input id="contact-name" name="name" type="text" autocomplete="name" required />
+            </div>
+
+            <div class="field">
+              <label for="contact-email">Email</label>
+              <input id="contact-email" name="email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="field field-full">
+              <label for="contact-topic">What is this about?</label>
+              <select id="contact-topic" name="topic" required>
+                <option value="">Select one</option>
+                <option value="General question">General question</option>
+                <option value="Resource or blog">Resource or blog</option>
+                <option value="Training">Training</option>
+                <option value="Candidate / talent network">Candidate / talent network</option>
+                <option value="Employer / hiring">Employer / hiring</option>
+                <option value="Privacy or legal">Privacy or legal</option>
+              </select>
+            </div>
+
+            <div class="field field-full">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows="6" required></textarea>
+            </div>
+
+            <div class="checkbox-field">
+              <input id="contact-consent" name="consent" type="checkbox" value="yes" required />
+              <label for="contact-consent">
+                I agree to be contacted about this enquiry and have read the
+                <a href="/privacy/">privacy policy</a>.
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button class="button" type="submit">Send message</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

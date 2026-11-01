@@ -1,0 +1,30 @@
+---
+import { tagUrl } from '../lib/blog';
+
+interface TagItem {
+  label: string;
+  slug: string;
+  count: number;
+}
+
+interface Props {
+  tags: TagItem[];
+  active?: string;
+}
+
+const { tags, active } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <nav class="tag-filter" aria-label="Filter posts by tag">
+    <a href="/blog/" aria-current={!active ? 'page' : undefined}>All posts</a>
+    {tags.map((tag) => (
+      <a
+        href={tagUrl(tag.label)}
+        aria-current={active === tag.slug ? 'page' : undefined}
+      >
+        {tag.label} <span class="tag-count">{tag.count}</span>
+      </a>
+    ))}
+  </nav>
+)}

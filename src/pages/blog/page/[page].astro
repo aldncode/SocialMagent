@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import Pagination from '../../../components/Pagination.astro';
+import TagFilter from '../../../components/TagFilter.astro';
+import {
+  collectTags,
+  getPublishedPosts,
+  POSTS_PER_PAGE,
+  type BlogPost,
+} from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const allPosts = await getPublishedPosts();
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => {
+    const pageNumber = index + 2;
+    const start = (pageNumber - 1) * POSTS_PER_PAGE;
+    return {
+      params: { page: String(pageNumber) },
+      props: {
+        posts: allPosts.slice(start, start + POSTS_PER_PAGE),
+        tags: collectTags(allPosts),
+        currentPage: pageNumber,
+        totalPages,
+      },
+    };
+  });
+}
+
+interface Props {
+  posts: BlogPost[];
+  tags: { label: string; slug: string; count: number }[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { posts, tags, currentPage, totalPages } = Astro.props;
+---
+
+<BaseLayout
+  title={`Blog — Page ${currentPage}`}
+  description={`Page ${currentPage} of practical notes on digital marketing, social media, marketing analytics and careers.`}
+  crumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Blog', href: '/blog/' },
+    { label: `Page ${currentPage}` },
+  ]}
+>
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <p class="eyebrow">The blog</p>
+      <h1>Practical notes for marketing and analytics careers.</h1>
+      <p class="lede">
+        Page {currentPage} of {totalPages}. Clear explanations, useful checklists
+        and honest reflections on the work.
+      </p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="container">
+      <TagFilter tags={tags} />
+
+      <div class="post-grid post-grid-2">
+        {
+          posts.map((post) => (
+            <BlogCard post={post} headingLevel="h2" />
+          ))
+        }
+      </div>
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
+    </div>
+  </section>
+</BaseLayout>

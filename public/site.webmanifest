@@ -1,0 +1,17 @@
+{
+  "name": "Social Magent",
+  "short_name": "Magent",
+  "description": "Marketing and analytics careers, made practical.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf6f0",
+  "theme_color": "#17141f",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

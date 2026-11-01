@@ -1,0 +1,107 @@
+---
+import { site } from '../config/site';
+
+const path = Astro.url.pathname;
+const items = [
+  { label: 'About', href: '/about/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Free resources', href: '/resources/' },
+  { label: 'Hire talent', href: '/hire-talent/' },
+  { label: 'Contact', href: '/contact/' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href);
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="36" height="36" focusable="false">
+          <rect width="64" height="64" rx="14" fill="currentColor"></rect>
+          <path
+            d="M14 46V20l18 17 18-17v26"
+            fill="none"
+            stroke="#faf6f0"
+            stroke-width="6"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+          <circle cx="50" cy="46" r="6" fill="#e8a33d"></circle>
+        </svg>
+      </span>
+      <span class="brand-text">Social <em>Magent</em></span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-menu-toggle
+    >
+      <span class="sr-only">Open menu</span>
+      <span class="menu-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation" data-nav>
+      <ul class="nav-list">
+        {
+          items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="nav-actions">
+        <a class="button button-small" href="/talent-network/">
+          Join the talent network
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  // Accessible mobile menu: button state, Escape to close and click-to-close.
+  (() => {
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const nav = document.querySelector('[data-nav]');
+    if (!toggle || !nav) return;
+
+    const setOpen = (open) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      nav.classList.toggle('is-open', open);
+      document.body.classList.toggle('menu-open', open);
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    nav.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) setOpen(false);
+    });
+  })();
+</script>
