@@ -1,0 +1,18 @@
+---
+// File upload — dashed drop-area styling around a native file input.
+interface Props {
+  label: string;
+  name: string;
+  hint?: string;
+  accept?: string;
+}
+const { label, name, hint = 'PDF or DOCX, up to 10 MB.', accept } = Astro.props;
+---
+
+<div class="field">
+  <span class="field__label" id={`${name}-label`}>{label}</span>
+  <div class="file-upload">
+    <input type="file" id={name} name={name} accept={accept} aria-labelledby={`${name}-label`} aria-describedby={`${name}-hint`} />
+    <p class="file-upload__hint" id={`${name}-hint`}>{hint}</p>
+  </div>
+</div>

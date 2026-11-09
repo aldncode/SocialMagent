@@ -1,0 +1,46 @@
+---
+// Textarea with label, helper and error/success states.
+interface Props {
+  label: string;
+  name: string;
+  placeholder?: string;
+  helper?: string;
+  message?: string;
+  state?: 'default' | 'error' | 'success';
+  required?: boolean;
+  rows?: number;
+}
+const {
+  label,
+  name,
+  placeholder,
+  helper,
+  message,
+  state = 'default',
+  required = false,
+  rows = 5,
+} = Astro.props;
+---
+
+<div class={`field${state !== 'default' ? ` field--${state}` : ''}`}>
+  <label class="field__label" for={name}>
+    {label}
+    {required && <span class="field__required" aria-hidden="true">*</span>}
+  </label>
+  <textarea
+    class="field__control"
+    id={name}
+    name={name}
+    rows={rows}
+    placeholder={placeholder}
+    required={required}
+    aria-invalid={state === 'error' ? 'true' : undefined}
+    aria-describedby={message && state !== 'default' ? `${name}-message` : helper ? `${name}-helper` : undefined}
+  ></textarea>
+  {helper && <p class="field__helper" id={`${name}-helper`}>{helper}</p>}
+  {message && (
+    <p class={`field__message field__message--${state}`} id={`${name}-message`} role={state === 'error' ? 'alert' : undefined}>
+      {message}
+    </p>
+  )}
+</div>

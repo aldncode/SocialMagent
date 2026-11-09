@@ -1,0 +1,101 @@
+/* Buttons — primary, secondary (outline), text link with arrow.
+   States: hover, focus-visible (see base.css), disabled, loading. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 44px; /* touch target */
+  padding: 0.75rem var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition), border-color var(--transition),
+    color var(--transition);
+}
+
+.btn--sm {
+  min-height: 36px;
+  padding: 0.5rem var(--space-3);
+}
+
+/* Primary — the one solid accent action per screen */
+.btn--primary {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-accent-hover);
+  color: var(--color-on-accent);
+}
+
+/* Secondary — outline, for the supporting action */
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-text);
+  color: var(--color-text);
+  background-color: var(--color-bg-alt);
+}
+
+/* Text link with arrow */
+.btn--text {
+  min-height: 44px;
+  padding: 0;
+  color: var(--color-accent-text);
+  background: none;
+}
+
+.btn--text:hover {
+  color: var(--color-accent-hover);
+}
+
+.btn--text .btn__arrow {
+  transition: transform var(--transition);
+}
+
+.btn--text:hover .btn__arrow {
+  transform: translateX(4px);
+}
+
+/* Disabled */
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading — spinner + label swap handled by aria-busy */
+.btn[aria-busy='true'] {
+  position: relative;
+  color: transparent;
+  pointer-events: none;
+}
+
+.btn[aria-busy='true']::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--radius-round);
+  color: var(--color-on-accent);
+  animation: btn-spin 700ms linear infinite;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}

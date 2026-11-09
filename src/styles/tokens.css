@@ -1,0 +1,209 @@
+/* ==========================================================================
+   Social Magent — DESIGN TOKENS
+   Change colours, fonts, spacing and motion HERE only.
+   Everything else in the site reads from these custom properties.
+   ========================================================================== */
+
+:root {
+  /* ---------------------------------------------------------------------
+     1. COLOUR
+     A restrained neutral palette + one signature accent (indigo-violet).
+     Every text/background pairing used by the site passes WCAG AA.
+     See DESIGN.md for the measured contrast ratios.
+     --------------------------------------------------------------------- */
+
+  /* Near-black ink for text */
+  --color-ink: #121216;
+
+  /* Neutral grey scale (8 usable steps + white + off-white) */
+  --color-white: #ffffff;
+  --color-off-white: #f7f7f8; /* off-white page surface */
+  --color-grey-50: #f7f7f8;
+  --color-grey-100: #eeeef0;
+  --color-grey-200: #e1e1e4; /* default hairline borders */
+  --color-grey-300: #c7c7cc; /* stronger borders */
+  --color-grey-400: #9a9aa2; /* decorative only — never body text on light */
+  --color-grey-500: #6f6f78; /* captions on light (AA 4.98:1 on white) */
+  --color-grey-600: #55555e; /* secondary text (AA 7.38:1 on white) */
+  --color-grey-700: #3e3e46;
+  --color-grey-800: #2a2a31;
+  --color-grey-900: #1a1a1f; /* dark band / footer surface */
+
+  /* Signature accent — indigo-violet. Used sparingly:
+     primary buttons, links, focus rings, small overline details. */
+  --color-accent-50: #f1f0fd;
+  --color-accent-100: #e3e1fb;
+  --color-accent-200: #c7c3f6;
+  --color-accent-300: #a5a0ee; /* accent on dark surfaces */
+  --color-accent-400: #8079e4;
+  --color-accent-500: #6259d8;
+  --color-accent-600: #4b43c4; /* primary accent (white text: 7.24:1) */
+  --color-accent-700: #3c35a3; /* hover + accent text on light (9.42:1) */
+  --color-accent-800: #312c82;
+  --color-accent-900: #262263;
+
+  /* Semantic feedback colours (all AA on their own tint backgrounds) */
+  --color-success: #14663b;      /* 7.02:1 on white */
+  --color-success-bg: #e9f5ee;
+  --color-warning: #8a5300;      /* 6.33:1 on white */
+  --color-warning-bg: #fbf1e0;
+  --color-error: #b3251e;        /* 6.56:1 on white */
+  --color-error-bg: #fbeae9;
+  --color-error-strong: #c42b22; /* white text: 5.65:1 */
+
+  /* ---------------------------------------------------------------------
+     2. SEMANTIC ALIASES
+     Components use these, not the raw palette, so a dark band can swap
+     the whole scheme by overriding just these few variables.
+     --------------------------------------------------------------------- */
+  --color-bg: var(--color-white);
+  --color-bg-alt: var(--color-off-white);
+  --color-surface: var(--color-white);
+  --color-text: var(--color-ink);
+  --color-text-muted: var(--color-grey-600);
+  --color-text-subtle: var(--color-grey-500);
+  --color-border: var(--color-grey-200);
+  --color-border-strong: var(--color-grey-300);
+  --color-accent: var(--color-accent-600);
+  --color-accent-hover: var(--color-accent-700);
+  --color-accent-text: var(--color-accent-700);  /* links on light */
+  --color-accent-soft: var(--color-accent-50);   /* tinted surfaces */
+  --color-on-accent: var(--color-white);
+  --color-focus: var(--color-accent-600);
+
+  /* ---------------------------------------------------------------------
+     3. TYPOGRAPHY
+     One refined sans (IBM Plex Sans) for UI, one serif (Source Serif 4)
+     for editorial headlines. Both are free, open-licence (SIL OFL),
+     self-hosted via Fontsource — no external requests at runtime.
+     --------------------------------------------------------------------- */
+  --font-sans: 'IBM Plex Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Fluid type scale (clamp: min → preferred → max). Base body = 16px. */
+  --fs-display: clamp(3rem, 2.1rem + 3.4vw, 4.75rem);   /* 76px hero statements */
+  --fs-h1: clamp(2.5rem, 1.85rem + 2.4vw, 3.75rem);     /* 60px */
+  --fs-h2: clamp(2rem, 1.6rem + 1.6vw, 2.75rem);        /* 44px */
+  --fs-h3: clamp(1.625rem, 1.4rem + 0.9vw, 2.125rem);   /* 34px */
+  --fs-h4: clamp(1.375rem, 1.25rem + 0.5vw, 1.625rem);  /* 26px */
+  --fs-h5: clamp(1.125rem, 1.06rem + 0.3vw, 1.25rem);   /* 20px */
+  --fs-h6: 1rem;                                         /* 16px */
+  --fs-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);    /* 24px intro paragraph */
+  --fs-body: 1rem;                                       /* 16px */
+  --fs-small: 0.875rem;                                  /* 14px */
+  --fs-caption: 0.8125rem;                               /* 13px */
+  --fs-overline: 0.75rem;                                /* 12px label */
+
+  /* Line heights: body ~1.6, headings tighter */
+  --lh-display: 1.05;
+  --lh-heading: 1.15;
+  --lh-subheading: 1.3;
+  --lh-body: 1.6;
+  --lh-tight: 1.35;
+
+  /* Letter spacing */
+  --ls-tight: -0.02em;
+  --ls-normal: 0;
+  --ls-wide: 0.06em;
+  --ls-overline: 0.12em;
+
+  /* Reading measure: keep body copy around 70 characters */
+  --measure: 42rem; /* ~67–70ch at 16px */
+  --measure-narrow: 36rem;
+
+  /* ---------------------------------------------------------------------
+     4. SPACING (8px base rhythm)
+     --------------------------------------------------------------------- */
+  --space-0: 0;
+  --space-05: 0.25rem; /*  4px — half step, tight icon gaps */
+  --space-1: 0.5rem;   /*  8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-5: 2.5rem;   /* 40px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  --space-10: 5rem;    /* 80px */
+  --space-12: 6rem;    /* 96px */
+  --space-16: 8rem;    /* 128px */
+
+  /* Section padding (vertical) — fluid so mobile stays comfortable */
+  --section-y: clamp(3rem, 2rem + 4vw, 6rem);        /* standard section */
+  --section-y-sm: clamp(2rem, 1.5rem + 2vw, 4rem);   /* compact band */
+  --section-y-lg: clamp(4rem, 3rem + 5vw, 8rem);     /* hero / statement */
+
+  /* ---------------------------------------------------------------------
+     5. LAYOUT
+     Containers + a 12-column grid with consistent gutters.
+     --------------------------------------------------------------------- */
+  --container-content: 720px;  /* long-form reading column */
+  --container-standard: 1200px; /* default page width */
+  --container-wide: 1440px;     /* full-bleed editorial width */
+  --gutter: clamp(1rem, 0.4rem + 2.4vw, 2rem); /* page side padding 16–32px */
+  --grid-columns: 12;
+  --grid-gap: 1.5rem; /* 24px column gap */
+
+  /* Breakpoints are documented for reference; used in media queries as
+     plain values (mobile-first): 640px, 1024px, 1280px */
+  --bp-sm: 640px;
+  --bp-md: 1024px;
+  --bp-lg: 1280px;
+
+  /* ---------------------------------------------------------------------
+     6. BORDERS, RADII, SHADOWS  — sharp and corporate, not bubbly
+     --------------------------------------------------------------------- */
+  --border-width: 1px;
+  --border: var(--border-width) solid var(--color-border);
+  --border-strong: var(--border-width) solid var(--color-border-strong);
+
+  --radius-0: 0;      /* most blocks: perfectly square */
+  --radius-sm: 2px;   /* buttons, inputs, cards */
+  --radius-md: 4px;   /* occasional softer corner */
+  --radius-round: 50%; /* radio dots only */
+
+  --shadow-1: 0 1px 2px rgb(18 18 22 / 0.06); /* barely-there lift */
+  --shadow-2: 0 4px 12px rgb(18 18 22 / 0.08); /* menus only */
+
+  /* ---------------------------------------------------------------------
+     7. MOTION — subtle 150–250ms; reduced-motion respected in base.css
+     --------------------------------------------------------------------- */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --transition: var(--duration-base) var(--ease);
+
+  /* ---------------------------------------------------------------------
+     8. Z-INDEX
+     --------------------------------------------------------------------- */
+  --z-header: 100;
+  --z-mega: 110;
+  --z-mobile: 120;
+}
+
+/* --------------------------------------------------------------------------
+   DARK SURFACE OVERRIDES
+   Any element with data-surface="dark" (footer, CTA bands, style-guide
+   demos) re-points the semantic aliases. Components need no other change.
+   -------------------------------------------------------------------------- */
+[data-surface='dark'] {
+  --color-bg: var(--color-grey-900);
+  --color-bg-alt: var(--color-grey-800);
+  --color-surface: var(--color-grey-800);
+  --color-text: var(--color-grey-100);
+  --color-text-muted: var(--color-grey-300);
+  --color-text-subtle: var(--color-grey-400); /* 6.21:1 on grey-900 */
+  --color-border: var(--color-grey-700);
+  --color-border-strong: var(--color-grey-600);
+  --color-accent: var(--color-accent-600);
+  --color-accent-hover: var(--color-accent-500);
+  --color-accent-text: var(--color-accent-300); /* 7.32:1 on grey-900 */
+  --color-accent-soft: rgb(165 160 238 / 0.12);
+  --color-on-accent: var(--color-white);
+  --color-focus: var(--color-accent-300);
+}

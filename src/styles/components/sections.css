@@ -1,0 +1,171 @@
+/* Section patterns:
+   split, three-column capabilities, featured insight + related list,
+   quiet CTA band, leadership grid with placeholder portraits. */
+
+/* --- Split section (text + media) ---------------------------------------- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+  }
+
+  .split--media-first .split__media {
+    order: -1;
+  }
+}
+
+.split__text .overline {
+  margin-bottom: var(--space-2);
+}
+
+.split__text h2 {
+  margin-bottom: var(--space-3);
+}
+
+.split__text p {
+  color: var(--color-text-muted);
+}
+
+.split__text .btn {
+  margin-top: var(--space-4);
+}
+
+/* --- Three-column capabilities ------------------------------------------- */
+.capabilities__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap);
+}
+
+@media (min-width: 640px) {
+  .capabilities__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .capabilities__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.section-head {
+  max-width: 44rem;
+  margin-bottom: var(--space-6);
+}
+
+.section-head .overline {
+  margin-bottom: var(--space-2);
+}
+
+.section-head p {
+  margin-top: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+/* --- Featured insight + related items ------------------------------------- */
+.featured-insight {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  .featured-insight {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-8);
+  }
+}
+
+.featured-insight__title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-h3);
+  font-weight: var(--font-weight-semibold);
+  margin-block: var(--space-2);
+}
+
+.featured-insight__related-title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-overline);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-strong);
+}
+
+/* --- Quiet CTA band -------------------------------------------------------- */
+.cta-band {
+  background-color: var(--color-bg-alt);
+  border-block: var(--border);
+}
+
+.cta-band--dark {
+  background-color: var(--color-grey-900);
+  border-color: var(--color-grey-700);
+}
+
+.cta-band__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.cta-band h2 {
+  font-size: var(--fs-h3);
+  max-width: 30rem;
+}
+
+.cta-band p {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--fs-small);
+}
+
+/* --- Leadership / people grid ---------------------------------------------- */
+.leadership__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+
+@media (min-width: 1024px) {
+  .leadership__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.person__portrait {
+  aspect-ratio: 3 / 4;
+  background-color: var(--color-bg-alt);
+  border: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* abstract CSS-only portrait stand-in */
+  background-image:
+    radial-gradient(circle at 50% 38%, var(--color-grey-300) 0 22%, transparent 23%),
+    radial-gradient(circle at 50% 95%, var(--color-grey-300) 0 40%, transparent 41%);
+}
+
+.person__name {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h5);
+  font-weight: var(--font-weight-semibold);
+  margin-top: var(--space-2);
+}
+
+.person__role {
+  font-size: var(--fs-caption);
+  color: var(--color-text-muted);
+}

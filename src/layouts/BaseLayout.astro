@@ -1,0 +1,41 @@
+---
+// BaseLayout — fonts, global stylesheet, skip link, header, main landmark, footer.
+import '@fontsource-variable/ibm-plex-sans';
+import '@fontsource-variable/source-serif-4';
+import '../styles/main.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+  footerVariant?: 'light' | 'dark';
+}
+
+const {
+  title,
+  description = 'Social Magent — digital marketing and analytics talent, training and hiring insights.',
+  noindex = false,
+  footerVariant = 'dark',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer variant={footerVariant} />
+  </body>
+</html>

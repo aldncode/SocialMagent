@@ -1,0 +1,26 @@
+---
+// Tag / filter chip. Render as a button (filter) or a link.
+//   <Chip active>Analytics</Chip>
+//   <Chip as="button" removable>Marketing</Chip>
+interface Props {
+  active?: boolean;
+  removable?: boolean;
+  href?: string;
+  as?: 'span' | 'button' | 'a';
+}
+const { active = false, removable = false, href, as = 'span' } = Astro.props;
+
+const Tag = as === 'a' ? 'a' : as === 'button' ? 'button' : 'span';
+const classes = ['chip', active ? 'is-active' : '', removable ? 'chip--removable' : '']
+  .filter(Boolean)
+  .join(' ');
+---
+
+<Tag
+  class={classes}
+  href={href}
+  type={as === 'button' ? 'button' : undefined}
+  aria-pressed={as === 'button' ? String(active) : undefined}
+>
+  <slot />
+</Tag>

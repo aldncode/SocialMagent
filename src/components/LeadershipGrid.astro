@@ -1,0 +1,26 @@
+---
+// Leadership / people grid with clearly-labelled placeholder portraits.
+// Placeholder names and roles — no real people are represented.
+const people = [
+  { name: 'Placeholder name', role: 'Placeholder role' },
+  { name: 'Placeholder name', role: 'Placeholder role' },
+  { name: 'Placeholder name', role: 'Placeholder role' },
+  { name: 'Placeholder name', role: 'Placeholder role' },
+];
+---
+
+<div class="leadership__grid">
+  {
+    people.map((person) => (
+      <div class="person">
+        <div
+          class="person__portrait"
+          role="img"
+          aria-label="Placeholder portrait"
+        />
+        <p class="person__name">{person.name}</p>
+        <p class="person__role">{person.role}</p>
+      </div>
+    ))
+  }
+</div>

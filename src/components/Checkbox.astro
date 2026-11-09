@@ -1,0 +1,21 @@
+---
+// Checkbox — wrapped in a 44px label for easy clicking.
+interface Props {
+  label: string;
+  name: string;
+  value?: string;
+  checked?: boolean;
+  required?: boolean;
+  helper?: string;
+}
+const { label, name, value = 'on', checked = false, required = false, helper } =
+  Astro.props;
+---
+
+<label class="choice" for={name}>
+  <input type="checkbox" id={name} name={name} value={value} checked={checked} required={required} />
+  <span class="choice__text">
+    {label}
+    {helper && <span class="choice__helper">{helper}</span>}
+  </span>
+</label>

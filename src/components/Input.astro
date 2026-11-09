@@ -1,0 +1,56 @@
+---
+// Text input with label, helper text, error and success states.
+//   <Input label="Email address" name="email" type="email" helper="We never share it." />
+//   <Input label="Email" name="email" state="error" message="Enter a valid email." required />
+interface Props {
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
+  helper?: string;
+  message?: string;
+  state?: 'default' | 'error' | 'success';
+  required?: boolean;
+  disabled?: boolean;
+}
+const {
+  label,
+  name,
+  type = 'text',
+  placeholder,
+  helper,
+  message,
+  state = 'default',
+  required = false,
+  disabled = false,
+} = Astro.props;
+
+const describedBy = [helper && `${name}-helper`, message && state !== 'default' && `${name}-message`]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div class={`field${state !== 'default' ? ` field--${state}` : ''}`}>
+  <label class="field__label" for={name}>
+    {label}
+    {required && <span class="field__required" aria-hidden="true">*</span>}
+    {required && <span class="visually-hidden">(required)</span>}
+  </label>
+  <input
+    class="field__control"
+    id={name}
+    name={name}
+    type={type}
+    placeholder={placeholder}
+    required={required}
+    disabled={disabled}
+    aria-invalid={state === 'error' ? 'true' : undefined}
+    aria-describedby={describedBy || undefined}
+  />
+  {helper && <p class="field__helper" id={`${name}-helper`}>{helper}</p>}
+  {message && (
+    <p class={`field__message field__message--${state}`} id={`${name}-message`} role={state === 'error' ? 'alert' : undefined}>
+      {message}
+    </p>
+  )}
+</div>

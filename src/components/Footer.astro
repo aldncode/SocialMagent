@@ -1,0 +1,67 @@
+---
+// Footer — multi-column link groups, legal row, social links.
+// variant="dark" for the dark surface context (default on this site).
+import Wordmark from './Wordmark.astro';
+
+interface Props {
+  variant?: 'light' | 'dark';
+}
+const { variant = 'dark' } = Astro.props;
+
+const groups = [
+  { title: 'Services', links: ['Marketing talent', 'Analytics talent', 'Team training'] },
+  { title: 'Insights', links: ['Articles', 'Guides', 'Checklists'] },
+  { title: 'Company', links: ['About', 'Careers', 'Contact'] },
+];
+
+const legal = ['Privacy', 'Terms', 'Cookies', 'Accessibility'];
+const social = ['LinkedIn', 'X', 'YouTube'];
+---
+
+<footer class="site-footer" data-surface={variant === 'dark' ? 'dark' : undefined}>
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <Wordmark />
+        <p>
+          Digital marketing and analytics talent, training and hiring insights.
+          Placeholder footer copy.
+        </p>
+      </div>
+      {
+        groups.map((group) => (
+          <div class="footer__group">
+            <p class="footer__group-title">{group.title}</p>
+            <ul class="footer__links">
+              {group.links.map((link) => (
+                <li>
+                  <a href="#">{link}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="footer__bottom">
+      <div class="footer__legal">
+        <span>© {new Date().getFullYear()} Social Magent</span>
+        {
+          legal.map((item) => (
+            <a href="#">{item}</a>
+          ))
+        }
+      </div>
+      <div class="footer__social">
+        {
+          social.map((item) => (
+            <a href="#" aria-label={`${item} (placeholder link)`}>
+              {item.slice(0, 2)}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,123 @@
+/* Hero variants:
+   a) .hero--block    — large headline over a dark/accent block + placeholder image
+   b) .hero--editorial — light, overline + headline + lead + two buttons
+   c) .hero--compact  — small page hero with breadcrumb */
+
+.hero {
+  padding-block: var(--section-y-lg);
+  background-color: var(--color-bg);
+}
+
+/* --- a) Block hero: dark surface, accent detail, image column ------------ */
+.hero--block {
+  background-color: var(--color-grey-900);
+  color: var(--color-grey-100);
+}
+
+.hero--block .hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hero--block .hero__grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+
+.hero--block .overline {
+  color: var(--color-accent-300);
+}
+
+.hero--block .display,
+.hero--block h1 {
+  color: var(--color-white);
+}
+
+.hero--block .lead {
+  color: var(--color-grey-300);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+/* Clearly-labelled abstract placeholder image area (no stock photos) */
+.placeholder-media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background:
+    linear-gradient(135deg, var(--color-accent-800) 0%, var(--color-grey-800) 100%);
+  border: var(--border-width) solid var(--color-grey-700);
+  border-radius: var(--radius-0);
+}
+
+.placeholder-media::before {
+  /* thin abstract line motif — pure CSS, no assets */
+  content: '';
+  position: absolute;
+  inset: 18% 12%;
+  border: 1px solid rgb(255 255 255 / 0.18);
+}
+
+.placeholder-media__label {
+  position: relative;
+  font-size: var(--fs-overline);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.72);
+  background: rgb(18 18 22 / 0.55);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid rgb(255 255 255 / 0.25);
+}
+
+/* Light variant of the placeholder (used on light sections) */
+.placeholder-media--light {
+  background: var(--color-bg-alt);
+  border-color: var(--color-border);
+}
+
+.placeholder-media--light::before {
+  border-color: var(--color-grey-300);
+}
+
+.placeholder-media--light .placeholder-media__label {
+  color: var(--color-text-muted);
+  background: var(--color-white);
+  border-color: var(--color-border-strong);
+}
+
+/* --- b) Editorial hero --------------------------------------------------- */
+.hero--editorial .hero__inner {
+  max-width: 48rem;
+}
+
+.hero--editorial .lead {
+  margin-top: var(--space-3);
+}
+
+/* --- c) Compact page hero with breadcrumb -------------------------------- */
+.hero--compact {
+  padding-block: var(--space-8);
+  background-color: var(--color-bg-alt);
+  border-bottom: var(--border);
+}
+
+.hero--compact h1 {
+  font-size: var(--fs-h2);
+  margin-top: var(--space-2);
+}
+
+.hero--compact .lead {
+  margin-top: var(--space-2);
+  font-size: var(--fs-body);
+}

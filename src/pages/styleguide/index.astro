@@ -1,0 +1,719 @@
+---
+// /styleguide/ — demonstrates every token and component.
+// noindex: this page is internal documentation, not for search engines.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import Hero from '../../components/Hero.astro';
+import InsightCard from '../../components/InsightCard.astro';
+import FeatureCard from '../../components/FeatureCard.astro';
+import CapabilityCard from '../../components/CapabilityCard.astro';
+import ListRow from '../../components/ListRow.astro';
+import SplitSection from '../../components/SplitSection.astro';
+import Capabilities from '../../components/Capabilities.astro';
+import FeaturedInsight from '../../components/FeaturedInsight.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import LeadershipGrid from '../../components/LeadershipGrid.astro';
+import Input from '../../components/Input.astro';
+import Select from '../../components/Select.astro';
+import Textarea from '../../components/Textarea.astro';
+import Checkbox from '../../components/Checkbox.astro';
+import Radio from '../../components/Radio.astro';
+import FileUpload from '../../components/FileUpload.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import Pagination from '../../components/Pagination.astro';
+import Tabs from '../../components/Tabs.astro';
+import Accordion from '../../components/Accordion.astro';
+import Chip from '../../components/Chip.astro';
+import Overline from '../../components/Overline.astro';
+import Divider from '../../components/Divider.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Notice from '../../components/Notice.astro';
+import DataTable from '../../components/DataTable.astro';
+
+// Colour swatch data — ratios are measured WCAG contrast values (see DESIGN.md).
+const neutrals = [
+  { name: 'ink', hex: '#121216', ratio: '18.69:1 on white' },
+  { name: 'white', hex: '#FFFFFF', ratio: 'text ink: 18.69:1' },
+  { name: 'off-white', hex: '#F7F7F8', ratio: 'ink: 17.45:1' },
+  { name: 'grey-100', hex: '#EEEEF0', ratio: 'ink on it: 16.19:1' },
+  { name: 'grey-200', hex: '#E1E1E4', ratio: 'borders only' },
+  { name: 'grey-300', hex: '#C7C7CC', ratio: 'strong borders' },
+  { name: 'grey-400', hex: '#9A9AA2', ratio: '2.79:1 on white — decorative only' },
+  { name: 'grey-500', hex: '#6F6F78', ratio: '4.98:1 on white — captions' },
+  { name: 'grey-600', hex: '#55555E', ratio: '7.38:1 on white — secondary text' },
+  { name: 'grey-700', hex: '#3E3E46', ratio: '10.59:1 on white' },
+  { name: 'grey-800', hex: '#2A2A31', ratio: 'dark card surfaces' },
+  { name: 'grey-900', hex: '#1A1A1F', ratio: 'dark bands; grey-100: 14.96:1' },
+];
+
+const accents = [
+  { name: 'accent-50', hex: '#F1F0FD', ratio: 'tint surface' },
+  { name: 'accent-100', hex: '#E3E1FB', ratio: 'ink: 14.62:1' },
+  { name: 'accent-200', hex: '#C7C3F6', ratio: 'decorative' },
+  { name: 'accent-300', hex: '#A5A0EE', ratio: 'on dark: 7.32:1' },
+  { name: 'accent-400', hex: '#8079E4', ratio: 'decorative on light' },
+  { name: 'accent-500', hex: '#6259D8', ratio: 'white: 5.33:1' },
+  { name: 'accent-600', hex: '#4B43C4', ratio: 'white: 7.24:1 — primary' },
+  { name: 'accent-700', hex: '#3C35A3', ratio: '9.42:1 on white — links/hover' },
+  { name: 'accent-800', hex: '#312C82', ratio: 'white: 11.58:1' },
+  { name: 'accent-900', hex: '#262263', ratio: 'white: 14.08:1' },
+];
+
+const semantics = [
+  { name: 'success', hex: '#14663B', bg: '#E9F5EE', ratio: '7.02:1 on white · 6.27:1 on tint' },
+  { name: 'warning', hex: '#8A5300', bg: '#FBF1E0', ratio: '6.33:1 on white · 5.65:1 on tint' },
+  { name: 'error', hex: '#B3251E', bg: '#FBEAE9', ratio: '6.56:1 on white · 5.64:1 on tint' },
+];
+
+const typeSpecimens = [
+  { label: 'display — serif, 76px / 1.05', cls: 'spec-display', text: 'Confident headlines' },
+  { label: 'h1 — serif, 60px / 1.15', cls: 'spec-h1', text: 'Page headline' },
+  { label: 'h2 — serif, 44px / 1.15', cls: 'spec-h2', text: 'Section headline' },
+  { label: 'h3 — serif, 34px / 1.3', cls: 'spec-h3', text: 'Subsection headline' },
+  { label: 'h4 — serif, 26px / 1.3', cls: 'spec-h4', text: 'Card headline' },
+  { label: 'h5 — sans, 20px / 1.3', cls: 'spec-h5', text: 'Small headline' },
+  { label: 'h6 — sans, 16px / 1.4', cls: 'spec-h6', text: 'Minor headline' },
+  { label: 'lead — 24px intro', cls: 'lead', text: 'A lead paragraph introduces a section in one or two confident sentences.' },
+  { label: 'body — 16px / 1.6, ~70ch measure', cls: 'body-text', text: 'Body copy sits at a comfortable measure of roughly 70 characters so long-form reading stays easy on every screen.' },
+  { label: 'small — 14px / 1.55', cls: 'small', text: 'Secondary supporting text for interface elements.' },
+  { label: 'caption — 13px / 1.5', cls: 'caption', text: 'Timestamps, helper text and fine print.' },
+  { label: 'overline — 12px uppercase, tracked', cls: 'overline', text: 'Section label' },
+];
+
+const spacing = [
+  { token: '--space-05', value: '4px', px: 4 },
+  { token: '--space-1', value: '8px', px: 8 },
+  { token: '--space-2', value: '16px', px: 16 },
+  { token: '--space-3', value: '24px', px: 24 },
+  { token: '--space-4', value: '32px', px: 32 },
+  { token: '--space-5', value: '40px', px: 40 },
+  { token: '--space-6', value: '48px', px: 48 },
+  { token: '--space-8', value: '64px', px: 64 },
+  { token: '--space-10', value: '80px', px: 80 },
+  { token: '--space-12', value: '96px', px: 96 },
+  { token: '--space-16', value: '128px', px: 128 },
+];
+
+const accordionItems = [
+  {
+    question: 'Accordion question one',
+    answer: 'Placeholder answer text. Accordion uses native details/summary, so it works without JavaScript.',
+  },
+  {
+    question: 'Accordion question two',
+    answer: 'Placeholder answer text for the second item.',
+  },
+  {
+    question: 'Accordion question three',
+    answer: 'Placeholder answer text for the third item.',
+  },
+];
+---
+
+<BaseLayout title="Style guide — Social Magent" noindex={true}>
+  <!-- ============================ INTRO ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <Overline text="Social Magent — design system" />
+      <h1 class="sg-section__title" style="font-size: var(--fs-h2); margin-top: var(--space-2);">
+        Style guide
+      </h1>
+      <p class="sg-section__intro">
+        The complete design language: tokens, typography, components and patterns.
+        Everything on this page is built from <code>src/styles/tokens.css</code> — change
+        colours, fonts and spacing there and the whole site follows.
+      </p>
+      <Notice variant="info" title="Placeholder content">
+        Every name, date, headline and image on this page is a clearly-labelled placeholder.
+        Nothing here is a real claim, client, person or statistic.
+      </Notice>
+
+      <p class="sg-sub">Typeface choice</p>
+      <p class="sg-section__intro">
+        <strong>IBM Plex Sans</strong> (UI) and <strong>Source Serif 4</strong> (editorial
+        headlines) — both free, open-licence (SIL OFL) families, self-hosted through
+        Fontsource so the site makes no external font requests. Plex Sans is a precise,
+        engineered sans that reads as corporate without being generic; Source Serif 4 is a
+        high-contrast reading serif that gives headlines an editorial, advisory-firm
+        authority. Serif is reserved for headlines and pull quotes; all UI and body copy
+        stays in the sans.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================ COLOUR ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Colour</h2>
+      <p class="sg-section__intro">
+        One near-black ink, a neutral grey scale, white and an off-white surface, one
+        signature accent (indigo-violet — used sparingly), and accessible feedback
+        colours. Ratios are measured against WCAG AA (4.5:1 body text, 3:1 large text).
+      </p>
+
+      <p class="sg-sub">Neutrals</p>
+      <div class="sg-grid">
+        {
+          neutrals.map((c) => (
+            <div class="swatch">
+              <div class="swatch__chip" style={`background:${c.hex};`} />
+              <div class="swatch__meta">
+                <div class="swatch__name">{c.name}</div>
+                <div class="swatch__hex">{c.hex}</div>
+                <div class="swatch__ratio">{c.ratio}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="sg-sub">Signature accent</p>
+      <div class="sg-grid">
+        {
+          accents.map((c) => (
+            <div class="swatch">
+              <div class="swatch__chip" style={`background:${c.hex};`} />
+              <div class="swatch__meta">
+                <div class="swatch__name">{c.name}</div>
+                <div class="swatch__hex">{c.hex}</div>
+                <div class="swatch__ratio">{c.ratio}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="sg-sub">Feedback colours</p>
+      <div class="sg-row">
+        {
+          semantics.map((c) => (
+            <div class="swatch" style="min-width: 260px;">
+              <div class="swatch__chip" style={`background:${c.bg}; border-bottom: 4px solid ${c.hex};`} />
+              <div class="swatch__meta">
+                <div class="swatch__name">{c.name}</div>
+                <div class="swatch__hex">{c.hex} on {c.bg}</div>
+                <div class="swatch__ratio">{c.ratio}</div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="sg-sub">Semantic aliases in the dark surface context</p>
+      <div class="sg-dark">
+        <p style="color: var(--color-text); max-width: none;">
+          On <code>data-surface="dark"</code> the aliases re-point: text becomes grey-100
+          (14.96:1), muted text grey-300, links accent-300 (7.32:1), borders grey-700.
+          Components need no changes — they read the aliases.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ TYPOGRAPHY ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Typography</h2>
+      <p class="sg-section__intro">
+        Fluid scale with <code>clamp()</code> — mobile value → desktop value. Body 16px at
+        1.6 line-height, headings tighter, body measure capped at ~70 characters.
+      </p>
+      {
+        typeSpecimens.map((t) => (
+          <div class="type-specimen">
+            <div class="type-specimen__label">{t.label}</div>
+            <div class={t.cls}>{t.text}</div>
+          </div>
+        ))
+      }
+      <p class="sg-sub">Fonts in use</p>
+      <div class="sg-row">
+        <div class="sg-demo sg-demo--plain" style="flex: 1; min-width: 240px;">
+          <p class="type-specimen__label">IBM Plex Sans Variable — UI, body, labels</p>
+          <p style="font-size: var(--fs-h3); font-family: var(--font-sans); letter-spacing: normal;">
+            ABCDEFGHIJKLM abcdefghijklm 0123456789
+          </p>
+        </div>
+        <div class="sg-demo sg-demo--plain" style="flex: 1; min-width: 240px;">
+          <p class="type-specimen__label">Source Serif 4 Variable — headlines, quotes</p>
+          <p style="font-size: var(--fs-h3); font-family: var(--font-serif);">
+            ABCDEFGHIJKLM abcdefghijklm 0123456789
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SPACING & LAYOUT ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Spacing, layout &amp; shape</h2>
+      <p class="sg-section__intro">
+        8px base rhythm. Section padding is fluid. Containers: content 720px, standard
+        1200px, wide 1440px. Grid: 12 columns, 24px gutters. Radii 0–4px, hairline
+        borders, almost no shadow.
+      </p>
+
+      <p class="sg-sub">Spacing scale (8px base)</p>
+      <div class="spacing-scale">
+        {
+          spacing.map((s) => (
+            <div class="spacing-scale__item">
+              <span>
+                <code>{s.token}</code> · {s.value}
+              </span>
+              <span class="spacing-scale__bar" style={`width:${s.px}px;`} />
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="sg-sub">Section padding</p>
+      <div class="sg-row">
+        <div class="sg-demo"><code>--section-y-sm</code> compact band</div>
+        <div class="sg-demo"><code>--section-y</code> standard section</div>
+        <div class="sg-demo"><code>--section-y-lg</code> hero / statement</div>
+      </div>
+
+      <p class="sg-sub">Containers</p>
+      <div class="sg-row">
+        <div class="sg-demo sg-demo--plain" style="border-inline-start: 3px solid var(--color-accent);">
+          <code>--container-content</code> 720px
+        </div>
+        <div class="sg-demo sg-demo--plain" style="border-inline-start: 3px solid var(--color-accent);">
+          <code>--container-standard</code> 1200px
+        </div>
+        <div class="sg-demo sg-demo--plain" style="border-inline-start: 3px solid var(--color-accent);">
+          <code>--container-wide</code> 1440px
+        </div>
+      </div>
+
+      <p class="sg-sub">12-column grid (24px gutters)</p>
+      <div class="sg-grid-demo">
+        {Array.from({ length: 12 }, (_, i) => <span>{i + 1}</span>)}
+      </div>
+
+      <p class="sg-sub">Borders, radii, shadows, motion</p>
+      <div class="sg-row">
+        <div class="sg-demo sg-demo--plain" style="border: var(--border);">1px hairline border</div>
+        <div class="sg-demo sg-demo--plain" style="border: var(--border-strong); border-radius: var(--radius-sm);">radius-sm 2px</div>
+        <div class="sg-demo sg-demo--plain" style="border: var(--border-strong); border-radius: var(--radius-md);">radius-md 4px</div>
+        <div class="sg-demo sg-demo--plain" style="box-shadow: var(--shadow-1); border: var(--border);">shadow-1 (menus only use shadow-2)</div>
+        <div class="sg-demo sg-demo--plain">150 / 200 / 250ms · cubic-bezier(0.2, 0, 0, 1)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ BUTTONS ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Buttons</h2>
+      <p class="sg-section__intro">
+        Primary (one per screen), secondary outline, text link with arrow. Hover and
+        focus-visible states are live below; disabled and loading are shown explicitly.
+      </p>
+
+      <p class="sg-sub">Variants</p>
+      <div class="sg-row">
+        <Button variant="primary">Primary action</Button>
+        <Button variant="secondary">Secondary action</Button>
+        <Button variant="text">Text link with arrow</Button>
+        <Button variant="primary" small>Small primary</Button>
+      </div>
+
+      <p class="sg-sub">States — hover / focus-visible (tab to see focus)</p>
+      <div class="sg-row">
+        <Button variant="primary">Hover me</Button>
+        <Button variant="secondary">Hover me</Button>
+        <Button variant="text">Hover me</Button>
+      </div>
+
+      <p class="sg-sub">States — disabled &amp; loading</p>
+      <div class="sg-row">
+        <Button variant="primary" disabled>Disabled</Button>
+        <Button variant="secondary" disabled>Disabled</Button>
+        <Button variant="primary" loading>Loading</Button>
+      </div>
+
+      <p class="sg-sub">Buttons on the dark surface</p>
+      <div class="sg-dark">
+        <div class="sg-row">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="text">Text link →</Button>
+          <Button variant="primary" disabled>Disabled</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ HERO VARIANTS ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Hero variants</h2>
+      <p class="sg-section__intro">
+        (a) block hero with placeholder image, (b) light editorial hero, (c) compact page
+        hero with breadcrumb. Shown here stacked; on real pages one hero per screen.
+      </p>
+
+      <p class="sg-sub">a) Block hero</p>
+    </div>
+    <Hero
+      variant="block"
+      overline="Placeholder overline"
+      title="A large confident headline for a dark block hero."
+      lead="Placeholder lead text introducing the section in one or two sentences."
+    />
+
+    <div class="container">
+      <p class="sg-sub">b) Editorial hero (light)</p>
+    </div>
+    <Hero
+      variant="editorial"
+      overline="Placeholder overline"
+      title="An editorial headline with two clear actions."
+      lead="Placeholder lead paragraph. One primary action per screen keeps the choice obvious."
+    />
+
+    <div class="container">
+      <p class="sg-sub">c) Compact page hero with breadcrumb</p>
+    </div>
+    <Hero
+      variant="compact"
+      title="Compact page title"
+      lead="Placeholder page introduction."
+      breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Insights' }]}
+    />
+  </section>
+
+  <!-- ============================ CARDS ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Cards</h2>
+      <p class="sg-section__intro">
+        Flat surfaces with thin borders and small radii — no shadows. Insight card,
+        feature card, capability card and horizontal list row.
+      </p>
+
+      <p class="sg-sub">Insight / article card</p>
+      <div class="sg-grid" style="max-width: 760px;">
+        <InsightCard
+          category="Placeholder category"
+          title="Placeholder insight headline for the card component"
+          date="Placeholder date"
+        />
+        <InsightCard
+          category="Placeholder category"
+          title="A second placeholder headline to show wrapping"
+          date="Placeholder date"
+        />
+      </div>
+
+      <p class="sg-sub">Feature card &amp; capability card</p>
+      <div class="sg-grid">
+        <FeatureCard index="01" title="Placeholder feature title">
+          Placeholder description text for a feature card used in editorial grids.
+        </FeatureCard>
+        <CapabilityCard title="Placeholder capability">
+          A stat-free capability description. No numbers, no claims — just a short
+          explanation of what the capability covers.
+        </CapabilityCard>
+        <CapabilityCard title="Placeholder capability">
+          Another capability placeholder, kept deliberately plain and flat.
+        </CapabilityCard>
+      </div>
+
+      <p class="sg-sub">Horizontal list rows</p>
+      <div style="max-width: var(--container-content);">
+        <ListRow title="Placeholder related item headline" meta="Placeholder date · Placeholder category" />
+        <ListRow title="Another placeholder related item headline" meta="Placeholder date · Placeholder category" />
+        <ListRow title="Third placeholder related item headline" meta="Placeholder date · Placeholder category" />
+      </div>
+
+      <p class="sg-sub">Cards on the dark surface</p>
+      <div class="sg-dark">
+        <div class="sg-grid">
+          <CapabilityCard title="Placeholder capability">
+            Capability card on a dark band — it reads the semantic aliases.
+          </CapabilityCard>
+          <CapabilityCard title="Placeholder capability">
+            Borders and text adapt automatically.
+          </CapabilityCard>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SECTION PATTERNS ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Section patterns</h2>
+      <p class="sg-section__intro">
+        Split section, three-column capabilities, featured insight with related list,
+        quiet CTA bands (light and dark) and the leadership grid.
+      </p>
+
+      <p class="sg-sub">Split section (text + media)</p>
+      <SplitSection
+        overline="Placeholder overline"
+        title="Split section headline"
+        buttonLabel="Secondary action"
+      >
+        Placeholder body copy for the split pattern. The media side is a clearly-labelled
+        abstract placeholder — no stock photography.
+      </SplitSection>
+
+      <p class="sg-sub">Three-column capabilities</p>
+      <Capabilities
+        overline="Placeholder overline"
+        title="Three-column capabilities"
+        intro="Placeholder introduction sentence for the capabilities pattern."
+      >
+        <CapabilityCard title="Placeholder capability one">
+          Placeholder description of the first capability.
+        </CapabilityCard>
+        <CapabilityCard title="Placeholder capability two">
+          Placeholder description of the second capability.
+        </CapabilityCard>
+        <CapabilityCard title="Placeholder capability three">
+          Placeholder description of the third capability.
+        </CapabilityCard>
+      </Capabilities>
+
+      <p class="sg-sub">Featured insight + related list</p>
+      <FeaturedInsight
+        title="Placeholder featured insight headline"
+        date="Placeholder date · Placeholder category"
+        related={[
+          { title: 'Placeholder related item', meta: 'Placeholder date' },
+          { title: 'Placeholder related item', meta: 'Placeholder date' },
+          { title: 'Placeholder related item', meta: 'Placeholder date' },
+        ]}
+      >
+        Placeholder standfirst for the featured insight pattern.
+      </FeaturedInsight>
+
+      <p class="sg-sub">Leadership grid (placeholder portraits)</p>
+      <LeadershipGrid />
+    </div>
+
+    <div style="margin-top: var(--space-6);">
+      <p class="container sg-sub" style="margin-top: 0;">Quiet CTA band — light</p>
+      <CtaBand title="Placeholder call to action headline" buttonLabel="Talk to us">
+        Placeholder supporting line. One action per band.
+      </CtaBand>
+    </div>
+
+    <div style="margin-top: var(--space-6);">
+      <p class="container sg-sub" style="margin-top: 0;">Quiet CTA band — dark variant</p>
+      <CtaBand
+        title="Placeholder call to action headline"
+        buttonLabel="Talk to us"
+        variant="dark"
+      >
+        Placeholder supporting line on the dark surface.
+      </CtaBand>
+    </div>
+  </section>
+
+  <!-- ============================ FORMS ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Forms</h2>
+      <p class="sg-section__intro">
+        Visible labels, helper text, error and success states, 44px targets, keyboard
+        friendly with a visible focus ring. Placeholders are examples only — never a
+        replacement for a label.
+      </p>
+
+      <div class="sg-grid" style="align-items: start;">
+        <Input
+          label="Text input"
+          name="demo-text"
+          placeholder="Placeholder input"
+          helper="Helper text explains the expected format."
+        />
+        <Input
+          label="Email address"
+          name="demo-email-error"
+          type="email"
+          state="error"
+          message="Enter a valid email address."
+          required
+        />
+        <Input
+          label="Email address"
+          name="demo-email-success"
+          type="email"
+          state="success"
+          message="Looks good."
+        />
+        <Select
+          label="Select"
+          name="demo-select"
+          helper="Choose one option."
+          options={[
+            { label: 'Placeholder option one', value: '1' },
+            { label: 'Placeholder option two', value: '2' },
+            { label: 'Placeholder option three', value: '3' },
+          ]}
+        />
+        <Textarea
+          label="Textarea"
+          name="demo-textarea"
+          placeholder="Placeholder message"
+          helper="Tell us what you need."
+        />
+        <FileUpload label="File upload" name="demo-file" hint="Placeholder: PDF or DOCX, up to 10 MB." />
+      </div>
+
+      <p class="sg-sub">Checkbox &amp; radio</p>
+      <div class="sg-row" style="gap: var(--space-6);">
+        <fieldset class="choice-group">
+          <legend class="choice-group__legend">Checkbox group</legend>
+          <Checkbox label="Placeholder choice one" name="demo-check-1" />
+          <Checkbox label="Placeholder choice two" name="demo-check-2" checked helper="With helper text." />
+          <Checkbox label="Disabled choice" name="demo-check-3" />
+        </fieldset>
+        <fieldset class="choice-group">
+          <legend class="choice-group__legend">Radio group</legend>
+          <Radio label="Placeholder option A" name="demo-radio" value="a" checked />
+          <Radio label="Placeholder option B" name="demo-radio" value="b" />
+          <Radio label="Placeholder option C" name="demo-radio" value="c" />
+        </fieldset>
+      </div>
+
+      <p class="sg-sub">Forms on the dark surface</p>
+      <div class="sg-dark">
+        <div class="sg-grid" style="align-items: start;">
+          <Input label="Text input" name="demo-dark-text" placeholder="Placeholder input" helper="Helper text on dark." />
+          <Input label="Email address" name="demo-dark-email" type="email" state="error" message="Enter a valid email address." />
+        </div>
+        <div style="margin-top: var(--space-3);">
+          <Checkbox label="Placeholder checkbox on dark" name="demo-dark-check" checked />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ NAVIGATION ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Navigation helpers</h2>
+      <p class="sg-section__intro">
+        Breadcrumb, pagination, tabs (arrow-key navigable), accordion (native, no
+        JavaScript) and filter chips.
+      </p>
+
+      <p class="sg-sub">Breadcrumb</p>
+      <Breadcrumb
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Insights', href: '/insights' },
+          { label: 'Current page' },
+        ]}
+      />
+
+      <p class="sg-sub">Pagination</p>
+      <Pagination current={3} total={6} />
+
+      <p class="sg-sub">Tabs</p>
+      <Tabs
+        id="demo-tabs"
+        tabs={[
+          { label: 'Tab one', content: 'Placeholder panel content for tab one. Use Left and Right arrow keys to move between tabs.' },
+          { label: 'Tab two', content: 'Placeholder panel content for tab two.' },
+          { label: 'Tab three', content: 'Placeholder panel content for tab three.' },
+        ]}
+      />
+
+      <p class="sg-sub">Accordion</p>
+      <Accordion items={accordionItems} />
+
+      <p class="sg-sub">Tag / filter chips</p>
+      <div class="sg-row">
+        <Chip>Default chip</Chip>
+        <Chip active>Active filter</Chip>
+        <Chip as="button">Button chip</Chip>
+        <Chip as="button" active aria-pressed="true">Pressed chip</Chip>
+        <Chip removable>Removable chip</Chip>
+        <Chip as="a" href="#">Link chip</Chip>
+      </div>
+
+      <p class="sg-sub">Navigation on the dark surface</p>
+      <div class="sg-dark">
+        <div class="sg-row" style="margin-bottom: var(--space-3);">
+          <Breadcrumb
+            items={[{ label: 'Home', href: '/' }, { label: 'Current page' }]}
+          />
+        </div>
+        <div class="sg-row" style="margin-bottom: var(--space-3);">
+          <Pagination current={1} total={4} />
+        </div>
+        <div class="sg-row">
+          <Chip>Default</Chip>
+          <Chip active>Active filter</Chip>
+          <Chip as="button">Button chip</Chip>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ UTILITIES ============================ -->
+  <section class="sg-section">
+    <div class="container">
+      <h2 class="sg-section__title">Utility elements</h2>
+      <p class="sg-section__intro">
+        Dividers, overline labels, pull quote, notices and a data table.
+      </p>
+
+      <p class="sg-sub">Dividers</p>
+      <Divider />
+      <Divider variant="strong" />
+      <Divider variant="short" />
+
+      <p class="sg-sub">Overline label</p>
+      <div class="sg-row">
+        <Overline text="Plain overline" />
+        <span class="overline overline-rule" style="flex: 1; min-width: 200px;">Overline with rule</span>
+      </div>
+
+      <p class="sg-sub">Pull quote</p>
+      <div style="max-width: var(--measure);">
+        <PullQuote cite="Placeholder attribution — placeholder quote">
+          A placeholder quotation used to demonstrate the pull-quote component. No real
+          person or endorsement is represented.
+        </PullQuote>
+      </div>
+
+      <p class="sg-sub">Notice / callout</p>
+      <div class="sg-row" style="flex-direction: column; align-items: stretch; gap: var(--space-2);">
+        <Notice variant="info" title="Information">Placeholder informational message.</Notice>
+        <Notice variant="success" title="Success">Placeholder success message.</Notice>
+        <Notice variant="warning" title="Warning">Placeholder warning message.</Notice>
+        <Notice variant="error" title="Error">Placeholder error message.</Notice>
+      </div>
+
+      <p class="sg-sub">Table</p>
+      <DataTable
+        caption="Placeholder table caption — all values are placeholders."
+        head={['Column one', 'Column two', 'Column three']}
+        rows={[
+          ['Placeholder row', 'Placeholder value', 'Placeholder value'],
+          ['Placeholder row', 'Placeholder value', 'Placeholder value'],
+          ['Placeholder row', 'Placeholder value', 'Placeholder value'],
+        ]}
+      />
+
+      <p class="sg-sub">Utilities on the dark surface</p>
+      <div class="sg-dark">
+        <PullQuote cite="Placeholder attribution">
+          Placeholder pull quote on the dark surface.
+        </PullQuote>
+        <div style="margin-top: var(--space-3);">
+          <Notice variant="info" title="Information">Placeholder notice on dark.</Notice>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

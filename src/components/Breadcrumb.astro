@@ -1,0 +1,25 @@
+---
+// Breadcrumb — nav landmark with aria-label, current page marked.
+interface Props {
+  items: { label: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb__list">
+    {
+      items.map((item, index) => (
+        <li class="breadcrumb__item" aria-current={item.href ? undefined : 'page'}>
+          {item.href && index > 0 && (
+            <span class="breadcrumb__separator" aria-hidden="true">
+              /
+            </span>
+          )}
+          {item.href ? <a href={item.href}>{item.label}</a> : item.label}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

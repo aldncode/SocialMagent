@@ -1,0 +1,17 @@
+---
+// Horizontal list row — meta + title + arrow, used in related-item lists.
+interface Props {
+  title: string;
+  meta?: string;
+  href?: string;
+}
+const { title, meta, href = '#' } = Astro.props;
+---
+
+<a class="list-row" href={href}>
+  <span class="list-row__main">
+    <span class="list-row__title">{title}</span>
+    {meta && <span class="list-row__meta">{meta}</span>}
+  </span>
+  <span class="list-row__arrow" aria-hidden="true">→</span>
+</a>

@@ -1,0 +1,49 @@
+---
+// Button — primary / secondary / text-with-arrow.
+// States: hover & focus-visible in CSS; disabled and loading via attributes:
+//   <Button variant="primary">Talk to us</Button>
+//   <Button variant="secondary" disabled>Next</Button>
+//   <Button variant="primary" loading>Saving…</Button>
+//   <Button variant="text" href="/insights">Read the insight</Button>
+interface Props {
+  variant?: 'primary' | 'secondary' | 'text';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  loading?: boolean;
+  small?: boolean;
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  disabled = false,
+  loading = false,
+  small = false,
+  class: className = '',
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const classes = [
+  'btn',
+  `btn--${variant}`,
+  small ? 'btn--sm' : '',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<Tag
+  class={classes}
+  href={href}
+  type={href ? undefined : type}
+  disabled={href ? undefined : disabled}
+  aria-disabled={disabled ? 'true' : undefined}
+  aria-busy={loading ? 'true' : undefined}
+>
+  <slot />
+  {variant === 'text' && <span class="btn__arrow" aria-hidden="true">→</span>}
+</Tag>

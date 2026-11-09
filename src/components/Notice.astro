@@ -1,0 +1,18 @@
+---
+// Notice / callout — info, success, warning, error. role=alert on error.
+interface Props {
+  variant?: 'info' | 'success' | 'warning' | 'error';
+  title: string;
+}
+const { variant = 'info', title } = Astro.props;
+---
+
+<div
+  class={`notice notice--${variant}`}
+  role={variant === 'error' ? 'alert' : undefined}
+>
+  <div>
+    <strong class="notice__title">{title}</strong>
+    <p><slot /></p>
+  </div>
+</div>

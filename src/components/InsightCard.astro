@@ -1,0 +1,26 @@
+---
+// Insight / article card — placeholder image, overline category, headline, date.
+interface Props {
+  category: string;
+  title: string;
+  date: string;       // display date
+  datetime?: string;  // machine-readable ISO date
+  href?: string;
+}
+const { category, title, date, datetime, href = '#' } = Astro.props;
+---
+
+<article class="card card--insight">
+  <div class="card__media">
+    <span class="placeholder-label">Placeholder image</span>
+  </div>
+  <div class="card__body">
+    <span class="overline">{category}</span>
+    <h3 class="card__title">
+      <a class="card__title-link" href={href}>{title}</a>
+    </h3>
+    <p class="card__meta">
+      <time datetime={datetime}>{date}</time>
+    </p>
+  </div>
+</article>

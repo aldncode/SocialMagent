@@ -1,0 +1,17 @@
+/* Single stylesheet entry point — imported once by BaseLayout.
+   Order matters: tokens → base → components. */
+
+@import './tokens.css';
+@import './base.css';
+@import './components/buttons.css';
+@import './components/header.css';
+@import './components/hero.css';
+@import './components/cards.css';
+@import './components/sections.css';
+@import './components/forms.css';
+@import './components/navigation.css';
+@import './components/footer.css';
+@import './components/utilities.css';
+
+/* Style-guide-only helpers (not part of the production component set) */
+@import './styleguide.css';

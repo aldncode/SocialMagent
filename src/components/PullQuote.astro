@@ -1,0 +1,12 @@
+---
+// Pull quote — serif quotation with accent rule. Cite is a placeholder.
+interface Props {
+  cite?: string;
+}
+const { cite = 'Placeholder attribution' } = Astro.props;
+---
+
+<blockquote class="pull-quote">
+  <p><slot /></p>
+  <footer><cite>{cite}</cite></footer>
+</blockquote>

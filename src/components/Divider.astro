@@ -1,0 +1,9 @@
+---
+// Divider — thin rule. variant: default | strong | short (accent).
+interface Props {
+  variant?: 'default' | 'strong' | 'short';
+}
+const { variant = 'default' } = Astro.props;
+---
+
+<hr class={`divider${variant !== 'default' ? ` divider--${variant}` : ''}`} />

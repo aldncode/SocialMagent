@@ -1,0 +1,39 @@
+---
+// Featured insight — one lead story plus a list of related items.
+import Button from './Button.astro';
+import ListRow from './ListRow.astro';
+
+interface Props {
+  overline?: string;
+  title: string;
+  date?: string;
+  relatedTitle?: string;
+}
+const { overline = 'Featured insight', title, date, relatedTitle = 'Related items' } =
+  Astro.props;
+
+const related = (Astro.props.related ?? []) as {
+  title: string;
+  meta?: string;
+}[];
+---
+
+<div class="featured-insight">
+  <div class="featured-insight__lead">
+    <span class="overline">{overline}</span>
+    <h3 class="featured-insight__title">{title}</h3>
+    <p class="body-text"><slot /></p>
+    {date && <p class="caption" style="margin-top: var(--space-2);">{date}</p>}
+    <div style="margin-top: var(--space-3);">
+      <Button variant="text" href="#">Read the insight</Button>
+    </div>
+  </div>
+  <div class="featured-insight__related">
+    <p class="featured-insight__related-title">{relatedTitle}</p>
+    {
+      related.map((item) => (
+        <ListRow title={item.title} meta={item.meta} />
+      ))
+    }
+  </div>
+</div>

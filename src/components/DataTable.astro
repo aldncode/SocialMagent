@@ -1,0 +1,35 @@
+---
+// Data table with caption. Pass header rows and body rows as arrays.
+interface Props {
+  caption: string;
+  head: string[];
+  rows: string[][];
+}
+const { caption, head, rows } = Astro.props;
+---
+
+<div class="table-wrap">
+  <table class="table">
+    <caption>{caption}</caption>
+    <thead>
+      <tr>
+        {head.map((cell) => <th scope="col">{cell}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr>
+            {row.map((cell, index) =>
+              index === 0 ? (
+                <th scope="row">{cell}</th>
+              ) : (
+                <td>{cell}</td>
+              )
+            )}
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

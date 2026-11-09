@@ -1,0 +1,17 @@
+---
+// Feature card — numbered editorial block for key themes.
+interface Props {
+  index?: string;
+  title: string;
+  href?: string;
+}
+const { index, title, href = '#' } = Astro.props;
+---
+
+<article class="card card--feature">
+  {index && <span class="card__index">{index}</span>}
+  <h3 class="card__title">
+    <a href={href} style="color: inherit; text-decoration: none;">{title}</a>
+  </h3>
+  <p><slot /></p>
+</article>

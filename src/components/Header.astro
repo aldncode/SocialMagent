@@ -1,0 +1,254 @@
+---
+// Header — slim utility bar, main bar (wordmark + primary nav),
+// desktop mega-menu panel, full-screen mobile menu. Sticky on scroll.
+// The only interactivity on the page lives here (small vanilla JS).
+import Wordmark from './Wordmark.astro';
+import Button from './Button.astro';
+
+const primaryNav = [
+  {
+    label: 'Services',
+    id: 'mega-services',
+    groups: [
+      { title: 'Talent', links: ['Marketing hires', 'Analytics hires', 'Team build-outs'] },
+      { title: 'Training', links: ['Team workshops', 'Individual courses', 'Certification tracks'] },
+      { title: 'Advisory', links: ['Hiring strategy', 'Skills benchmarking'] },
+    ],
+    featured: {
+      overline: 'Featured',
+      title: 'Placeholder featured card',
+      text: 'A clearly-labelled placeholder for one highlighted insight.',
+    },
+  },
+  {
+    label: 'Insights',
+    id: 'mega-insights',
+    groups: [
+      { title: 'Articles', links: ['Marketing insights', 'Analytics insights', 'Hiring insights'] },
+      { title: 'Formats', links: ['Guides', 'Checklists', 'Interviews'] },
+      { title: 'Topics', links: ['Measurement', 'Content strategy', 'Careers'] },
+    ],
+    featured: {
+      overline: 'Latest insight',
+      title: 'Placeholder insight headline',
+      text: 'A clearly-labelled placeholder for the newest editorial item.',
+    },
+  },
+];
+
+const flatNav = [
+  { label: 'Training', href: '/training' },
+  { label: 'About', href: '/about' },
+];
+
+const mobileGroups = [
+  {
+    label: 'Services',
+    links: ['Marketing hires', 'Analytics hires', 'Team build-outs', 'Team workshops', 'Hiring strategy'],
+  },
+  {
+    label: 'Insights',
+    links: ['Articles', 'Guides', 'Checklists', 'Topics'],
+  },
+];
+---
+
+<header class="site-header" data-site-header>
+  <div class="utility-bar">
+    <div class="container utility-bar__inner">
+      <span>English</span>
+      <div class="utility-bar__links">
+        <a href="https://socialmagent.online">socialmagent.online</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-bar">
+    <div class="container main-bar__inner">
+      <Wordmark />
+
+      <nav class="primary-nav" aria-label="Primary">
+        <ul class="primary-nav__list">
+          {
+            primaryNav.map((item) => (
+              <li>
+                <button
+                  class="nav-link"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls={item.id}
+                  data-mega-trigger={item.id}
+                >
+                  {item.label}
+                  <span class="nav-link__caret" aria-hidden="true" />
+                </button>
+              </li>
+            ))
+          }
+          {
+            flatNav.map((item) => (
+              <li>
+                <a class="nav-link" href={item.href}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="main-bar__actions">
+        <Button href="/contact" small>Talk to us</Button>
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          data-menu-open
+        >
+          <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span><span></span></span>
+          Menu
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {/* Desktop mega-menu panels */}
+  {
+    primaryNav.map((item) => (
+      <div class="mega" id={item.id} hidden data-mega-panel={item.id}>
+        <div class="container mega__inner">
+          {item.groups.map((group) => (
+            <div class="mega__group">
+              <p class="mega__group-title">{group.title}</p>
+              <ul class="mega__list">
+                {group.links.map((link) => (
+                  <li>
+                    <a href="#">{link}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+          <div class="mega__featured">
+            <span class="overline">{item.featured.overline}</span>
+            <p class="mega__featured-title">{item.featured.title}</p>
+            <p>{item.featured.text}</p>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+
+  {/* Full-screen mobile menu */}
+  <div class="mobile-menu" id="mobile-menu" hidden data-mobile-menu>
+    <div class="container">
+      <div class="mobile-menu__top">
+        <Wordmark />
+        <button class="mobile-menu__close" type="button" data-menu-close>Close</button>
+      </div>
+      <nav aria-label="Mobile">
+        <ul class="mobile-menu__list">
+          {
+            mobileGroups.map((group) => (
+              <li>
+                <details>
+                  <summary>
+                    {group.label}
+                    <span aria-hidden="true">+</span>
+                  </summary>
+                  <ul class="mobile-menu__sub">
+                    {group.links.map((link) => (
+                      <li>
+                        <a href="#">{link}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ))
+          }
+          {
+            flatNav.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="mobile-menu__cta">
+        <Button href="/contact">Talk to us</Button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Sticky header: hairline border appears once the page is scrolled.
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle('is-scrolled', window.scrollY > 0);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Desktop mega-menu: click to open, Escape / outside click to close.
+  const triggers = document.querySelectorAll<HTMLButtonElement>('[data-mega-trigger]');
+
+  const closeMegas = (except?: string) => {
+    triggers.forEach((trigger) => {
+      const id = trigger.getAttribute('data-mega-trigger');
+      if (id === except) return;
+      trigger.setAttribute('aria-expanded', 'false');
+      document.getElementById(id!)?.setAttribute('hidden', '');
+    });
+  };
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const id = trigger.getAttribute('data-mega-trigger')!;
+      const panel = document.getElementById(id)!;
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      closeMegas();
+      if (!isOpen) {
+        trigger.setAttribute('aria-expanded', 'true');
+        panel.removeAttribute('hidden');
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMegas();
+  });
+
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    if (!target.closest('[data-mega-trigger]') && !target.closest('[data-mega-panel]')) {
+      closeMegas();
+    }
+  });
+
+  // Mobile menu: full-screen overlay with scroll lock.
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  const setMenu = (open: boolean) => {
+    if (!menu || !openBtn) return;
+    menu.toggleAttribute('hidden', !open);
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('menu-open', open);
+    if (open) closeBtn?.focus();
+    else openBtn.focus();
+  };
+
+  openBtn?.addEventListener('click', () => setMenu(true));
+  closeBtn?.addEventListener('click', () => setMenu(false));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu && !menu.hasAttribute('hidden')) setMenu(false);
+  });
+</script>

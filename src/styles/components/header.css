@@ -1,0 +1,314 @@
+/* Header — utility bar, main bar with wordmark + primary nav,
+   desktop mega-menu panel, full-screen mobile menu.
+   Sticky; gains a hairline border once the page scrolls. */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  background-color: var(--color-bg);
+  border-bottom: var(--border-width) solid transparent;
+  transition: border-color var(--transition);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--color-border);
+}
+
+/* --- Slim utility bar --------------------------------------------------- */
+.utility-bar {
+  background-color: var(--color-bg-alt);
+  border-bottom: var(--border);
+  font-size: var(--fs-caption);
+  color: var(--color-text-muted);
+}
+
+.utility-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 36px;
+}
+
+.utility-bar a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+
+.utility-bar a:hover {
+  color: var(--color-text);
+}
+
+.utility-bar__links {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* Hide utility bar links on small screens to keep the bar slim */
+@media (max-width: 639px) {
+  .utility-bar__links a:not(:last-child) {
+    display: none;
+  }
+}
+
+/* --- Main bar ----------------------------------------------------------- */
+.main-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-height: 64px;
+}
+
+/* Typographic wordmark — text only, no logo graphic */
+.wordmark {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.wordmark:hover {
+  color: var(--color-text);
+}
+
+.wordmark__accent {
+  color: var(--color-accent-text);
+}
+
+/* --- Primary nav (desktop) ---------------------------------------------- */
+.primary-nav {
+  margin-inline-start: auto;
+}
+
+.primary-nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-05);
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  text-decoration: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition);
+}
+
+.nav-link:hover,
+.nav-link[aria-expanded='true'] {
+  color: var(--color-accent-text);
+}
+
+.nav-link__caret {
+  width: 10px;
+  height: 10px;
+  border-inline-end: 1.5px solid currentColor;
+  border-block-end: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--transition);
+}
+
+.nav-link[aria-expanded='true'] .nav-link__caret {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+.main-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Hide desktop nav on smaller screens */
+@media (max-width: 1023px) {
+  .primary-nav,
+  .main-bar__actions .btn {
+    display: none;
+  }
+}
+
+/* --- Mega-menu panel (desktop) ------------------------------------------ */
+.mega {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  background-color: var(--color-surface);
+  border-block: var(--border);
+  box-shadow: var(--shadow-2);
+}
+
+.mega[hidden] {
+  display: none;
+}
+
+.mega__inner {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 1.2fr);
+  gap: var(--grid-gap);
+  padding-block: var(--space-5);
+}
+
+.mega__group-title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-overline);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-bottom: var(--space-2);
+}
+
+.mega__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mega__list a {
+  display: block;
+  padding: var(--space-1) 0;
+  font-size: var(--fs-small);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.mega__list a:hover {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+}
+
+/* Featured card inside the mega panel */
+.mega__featured {
+  border: var(--border);
+  background-color: var(--color-bg-alt);
+  padding: var(--space-3);
+}
+
+.mega__featured .overline {
+  margin-bottom: var(--space-1);
+}
+
+.mega__featured-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-h5);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  margin-bottom: var(--space-1);
+}
+
+.mega__featured p {
+  font-size: var(--fs-caption);
+  color: var(--color-text-muted);
+  max-width: none;
+}
+
+/* --- Mobile menu (full-screen) ------------------------------------------ */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  margin-inline-start: auto;
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
+.menu-toggle__bars {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-toggle__bars span {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+}
+
+@media (max-width: 1023px) {
+  .menu-toggle {
+    display: inline-flex;
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  z-index: var(--z-mobile);
+  background-color: var(--color-bg);
+  overflow-y: auto;
+  padding: var(--space-4) 0 var(--space-8);
+}
+
+.mobile-menu[hidden] {
+  display: none;
+}
+
+.mobile-menu__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  margin-bottom: var(--space-4);
+}
+
+.mobile-menu__close {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: var(--fs-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.mobile-menu__list > li {
+  border-bottom: var(--border);
+}
+
+.mobile-menu__list a,
+.mobile-menu__list summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  font-family: var(--font-serif);
+  font-size: var(--fs-h5);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+  list-style: none;
+}
+
+.mobile-menu__sub {
+  padding-bottom: var(--space-2);
+}
+
+.mobile-menu__sub a {
+  min-height: 44px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+.mobile-menu__cta {
+  margin-top: var(--space-5);
+}
+
+/* Body scroll lock while mobile menu is open */
+body.menu-open {
+  overflow: hidden;
+}
