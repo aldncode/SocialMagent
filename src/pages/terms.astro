@@ -1,0 +1,40 @@
+---
+// Terms — short starter template (to be reviewed by owner).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Notice from '../components/Notice.astro';
+import { legal } from '../data/services';
+---
+
+<BaseLayout
+  title={legal.terms.meta.title}
+  description={legal.terms.meta.description}
+  path="/terms"
+>
+  <Hero
+    variant="compact"
+    title="Terms of use"
+    lead={legal.terms.updated}
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Terms' }]}
+    actions={false}
+  />
+
+  <section class="section">
+    <div class="container container--content">
+      <Notice variant="warning" title="To be reviewed by owner">
+        {legal.terms.reviewNote}
+      </Notice>
+
+      <div class="legal-body" style="margin-top: var(--space-6);">
+        {
+          legal.terms.sections.map((section) => (
+            <div style="margin-bottom: var(--space-5);">
+              <h2>{section.heading}</h2>
+              <p class="body-text">{section.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

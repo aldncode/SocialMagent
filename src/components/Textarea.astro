@@ -9,6 +9,7 @@ interface Props {
   state?: 'default' | 'error' | 'success';
   required?: boolean;
   rows?: number;
+  disabled?: boolean;
 }
 const {
   label,
@@ -19,6 +20,7 @@ const {
   state = 'default',
   required = false,
   rows = 5,
+  disabled = false,
 } = Astro.props;
 ---
 
@@ -34,6 +36,7 @@ const {
     rows={rows}
     placeholder={placeholder}
     required={required}
+    disabled={disabled}
     aria-invalid={state === 'error' ? 'true' : undefined}
     aria-describedby={message && state !== 'default' ? `${name}-message` : helper ? `${name}-helper` : undefined}
   ></textarea>

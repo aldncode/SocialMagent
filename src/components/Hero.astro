@@ -13,6 +13,10 @@ interface Props {
   lead?: string;
   breadcrumbs?: { label: string; href?: string }[];
   actions?: boolean; // set false to render headline only
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
 }
 
 const {
@@ -22,6 +26,10 @@ const {
   lead,
   breadcrumbs = [],
   actions = true,
+  primaryLabel = 'Primary action',
+  primaryHref = '/contact',
+  secondaryLabel = 'Secondary action',
+  secondaryHref = '/services',
 } = Astro.props;
 ---
 
@@ -35,11 +43,11 @@ const {
           {lead && <p class="lead">{lead}</p>}
           {actions && (
             <div class="hero__actions">
-              <Button variant="primary" href="/contact">
-                Primary action
+              <Button variant="primary" href={primaryHref}>
+                {primaryLabel}
               </Button>
-              <Button variant="text" href="/insights">
-                Explore insights
+              <Button variant="text" href={secondaryHref}>
+                {secondaryLabel}
               </Button>
             </div>
           )}
@@ -63,11 +71,11 @@ const {
         {lead && <p class="lead">{lead}</p>}
         {actions && (
           <div class="hero__actions">
-            <Button variant="primary" href="/contact">
-              Primary action
+            <Button variant="primary" href={primaryHref}>
+              {primaryLabel}
             </Button>
-            <Button variant="secondary" href="/insights">
-              Secondary action
+            <Button variant="secondary" href={secondaryHref}>
+              {secondaryLabel}
             </Button>
           </div>
         )}

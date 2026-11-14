@@ -1,9 +1,78 @@
 ---
-// Homepage — header, one hero, footer. Nothing else invented.
+// Home — hero, what we do (4 service cards), 3-step process, founder block, closing CTA.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import Capabilities from '../components/Capabilities.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import FounderBlock from '../components/FounderBlock.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { home, services, processSteps } from '../data/services';
 ---
 
-<BaseLayout title="Social Magent">
-  <Hero variant="editorial" title="Rebuilding." actions={false} />
+<BaseLayout title={home.meta.title} description={home.meta.description} path="/">
+  <Hero
+    variant="editorial"
+    title={home.hero.title}
+    lead={home.hero.lead}
+    primaryLabel={home.hero.primaryCta}
+    primaryHref="/contact"
+    secondaryLabel={home.hero.secondaryCta}
+    secondaryHref="/services"
+  />
+
+  <section class="section section--alt" aria-labelledby="what-we-do">
+    <div class="container">
+      <Capabilities
+        overline={home.whatWeDo.overline}
+        title={home.whatWeDo.title}
+        intro={home.whatWeDo.intro}
+      >
+        {
+          services.map((service) => (
+            <FeatureCard title={service.title} href={`/services#${service.id}`}>
+              {service.cardText}
+            </FeatureCard>
+          ))
+        }
+      </Capabilities>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="process">
+    <div class="container">
+      <Capabilities
+        overline={home.process.overline}
+        title={home.process.title}
+        intro={home.process.intro}
+      >
+        {
+          processSteps.map((step) => (
+            <FeatureCard index={step.index} title={step.title}>
+              {step.text}
+            </FeatureCard>
+          ))
+        }
+      </Capabilities>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="founder">
+    <div class="container">
+      <FounderBlock
+        overline={home.founder.overline}
+        title={home.founder.title}
+        story={home.founder.story}
+        photoAlt={home.founder.photoAlt}
+      />
+    </div>
+  </section>
+
+  <CtaBand
+    variant="dark"
+    title={home.cta.title}
+    buttonLabel={home.cta.buttonLabel}
+    buttonHref="/contact"
+  >
+    {home.cta.text}
+  </CtaBand>
 </BaseLayout>

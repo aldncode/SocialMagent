@@ -8,6 +8,7 @@ interface Props {
   message?: string;
   state?: 'default' | 'error' | 'success';
   required?: boolean;
+  disabled?: boolean;
 }
 const {
   label,
@@ -17,6 +18,7 @@ const {
   message,
   state = 'default',
   required = false,
+  disabled = false,
 } = Astro.props;
 
 const id = name;
@@ -32,6 +34,7 @@ const id = name;
     id={id}
     name={name}
     required={required}
+    disabled={disabled}
     aria-invalid={state === 'error' ? 'true' : undefined}
     aria-describedby={message && state !== 'default' ? `${id}-message` : helper ? `${id}-helper` : undefined}
   >

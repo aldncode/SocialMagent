@@ -1,0 +1,82 @@
+---
+// About — founder story, how we work, honest "what we are today".
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import FounderBlock from '../components/FounderBlock.astro';
+import Capabilities from '../components/Capabilities.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { about } from '../data/services';
+---
+
+<BaseLayout title={about.meta.title} description={about.meta.description} path="/about">
+  <Hero
+    variant="compact"
+    title={about.hero.title}
+    lead={about.hero.lead}
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'About' }]}
+    actions={false}
+  />
+
+  <section class="section section--alt" aria-labelledby="founder-story">
+    <div class="container">
+      <FounderBlock
+        overline={about.story.overline}
+        title={about.story.title}
+        story={about.story.paragraphs[0]}
+        photoAlt="Photo placeholder"
+      />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="story-continue">
+    <div class="container">
+      <div class="body-text" id="story-continue">
+        {
+          about.story.paragraphs.slice(1).map((paragraph) => (
+            <p style="margin-top: var(--space-3);">{paragraph}</p>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" aria-labelledby="how-we-work">
+    <div class="container">
+      <Capabilities overline={about.howWeWork.overline} title={about.howWeWork.title}>
+        {
+          about.howWeWork.items.map((item) => (
+            <article class="card card--capability">
+              <h3 class="card__title">{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))
+        }
+      </Capabilities>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="what-we-are">
+    <div class="container">
+      <header class="section-head">
+        <span class="overline">{about.today.overline}</span>
+        <h2 id="what-we-are">{about.today.title}</h2>
+      </header>
+      <div class="body-text">
+        {
+          about.today.paragraphs.map((paragraph) => (
+            <p style="margin-top: var(--space-3);">{paragraph}</p>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    variant="dark"
+    title={about.cta.title}
+    buttonLabel={about.cta.buttonLabel}
+    buttonHref="/contact"
+  >
+    {about.cta.text}
+  </CtaBand>
+</BaseLayout>

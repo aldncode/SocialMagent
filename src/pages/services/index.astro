@@ -1,0 +1,144 @@
+---
+// Services — four sections with anchors: who it's for, what we do, what you get, CTA.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import Button from '../../components/Button.astro';
+import Chip from '../../components/Chip.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { services } from '../../data/services';
+
+const meta = {
+  title: 'Services — Social Magent',
+  description:
+    'Lead generation, AI workflow automation, managed IT and cloud security for growing Indian businesses — who each service is for and what you get.',
+};
+---
+
+<BaseLayout title={meta.title} description={meta.description} path="/services">
+  <Hero
+    variant="compact"
+    title="Services"
+    lead="Four services for growing businesses. Each one can stand alone or run as part of a single engagement."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Services' }]}
+    actions={false}
+  />
+
+  <nav class="section section--sm" aria-label="Service sections">
+    <div class="container">
+      <ul class="services-anchor-list">
+        {
+          services.map((service) => (
+            <li>
+              <Chip as="a" href={`#${service.id}`}>
+                {service.navLabel}
+              </Chip>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </nav>
+
+  {
+    services.map((service, i) => (
+      <section
+        class={`section${i % 2 === 1 ? ' section--alt' : ''}`}
+        id={service.id}
+        aria-labelledby={`${service.id}-heading`}
+      >
+        <div class="container">
+          <header class="section-head">
+            <span class="overline">Service</span>
+            <h2 id={`${service.id}-heading`}>{service.title}</h2>
+            <p>{service.cardText}</p>
+          </header>
+
+          <div class="service-detail">
+            <div class="service-detail__block">
+              <h3>Who it’s for</h3>
+              <p class="body-text">{service.who}</p>
+            </div>
+
+            <div class="service-detail__block">
+              <h3>What we do</h3>
+              <ul class="service-detail__list service-detail__list--accent">
+                {service.does.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="service-detail__block">
+              <h3>What you get</h3>
+              <ul class="service-detail__list">
+                {service.gets.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="service-detail__block">
+              <Button variant="primary" href="/contact">
+                {service.cta}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <CtaBand
+    variant="dark"
+    title="Not sure which service fits?"
+    buttonLabel="Book a free 30-minute audit"
+    buttonHref="/contact"
+  >
+    Tell us where it hurts and we will point you at the right starting place.
+  </CtaBand>
+</BaseLayout>
+
+<style>
+  .services-anchor-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+  }
+
+  .service-detail {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 48rem;
+  }
+
+  .service-detail__block h3 {
+    font-family: var(--font-sans);
+    font-size: var(--fs-h5);
+    letter-spacing: var(--ls-normal);
+    margin-bottom: var(--space-2);
+  }
+
+  .service-detail__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    max-width: var(--measure);
+  }
+
+  .service-detail__list li {
+    color: var(--color-text-muted);
+    padding-inline-start: var(--space-3);
+    border-inline-start: 2px solid var(--color-border-strong);
+  }
+
+  .service-detail__list--accent li {
+    border-inline-start-color: var(--color-accent);
+  }
+
+  section[id] {
+    scroll-margin-top: 6rem;
+  }
+</style>

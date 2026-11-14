@@ -1,0 +1,23 @@
+---
+// 404 — not found.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import { notFound } from '../data/services';
+---
+
+<BaseLayout
+  title={notFound.meta.title}
+  description={notFound.meta.description}
+  noindex={true}
+  path="/404"
+>
+  <Hero variant="compact" title={notFound.title} lead={notFound.text} actions={false} />
+  <section class="section section--sm">
+    <div class="container">
+      <Button variant="primary" href="/">
+        {notFound.linkLabel}
+      </Button>
+    </div>
+  </section>
+</BaseLayout>

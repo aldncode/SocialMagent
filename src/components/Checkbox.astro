@@ -6,14 +6,15 @@ interface Props {
   value?: string;
   checked?: boolean;
   required?: boolean;
+  disabled?: boolean;
   helper?: string;
 }
-const { label, name, value = 'on', checked = false, required = false, helper } =
+const { label, name, value = 'on', checked = false, required = false, disabled = false, helper } =
   Astro.props;
 ---
 
 <label class="choice" for={name}>
-  <input type="checkbox" id={name} name={name} value={value} checked={checked} required={required} />
+  <input type="checkbox" id={name} name={name} value={value} checked={checked} required={required} disabled={disabled} />
   <span class="choice__text">
     {label}
     {helper && <span class="choice__helper">{helper}</span>}

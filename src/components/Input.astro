@@ -12,6 +12,7 @@ interface Props {
   state?: 'default' | 'error' | 'success';
   required?: boolean;
   disabled?: boolean;
+  autocomplete?: string;
 }
 const {
   label,
@@ -23,6 +24,7 @@ const {
   state = 'default',
   required = false,
   disabled = false,
+  autocomplete,
 } = Astro.props;
 
 const describedBy = [helper && `${name}-helper`, message && state !== 'default' && `${name}-message`]
@@ -44,6 +46,7 @@ const describedBy = [helper && `${name}-helper`, message && state !== 'default' 
     placeholder={placeholder}
     required={required}
     disabled={disabled}
+    autocomplete={autocomplete}
     aria-invalid={state === 'error' ? 'true' : undefined}
     aria-describedby={describedBy || undefined}
   />

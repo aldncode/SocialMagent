@@ -1,0 +1,168 @@
+---
+// Contact — booking (if BOOKING_URL set) + short form posting to FORM_ENDPOINT.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Input from '../components/Input.astro';
+import Select from '../components/Select.astro';
+import Textarea from '../components/Textarea.astro';
+import Checkbox from '../components/Checkbox.astro';
+import Notice from '../components/Notice.astro';
+import { site } from '../config/site';
+import { contact, serviceSelectOptions } from '../data/services';
+
+const bookingUrl = site.BOOKING_URL.trim();
+const formEndpoint = site.FORM_ENDPOINT.trim();
+const founderName = site.founderName.trim();
+---
+
+<BaseLayout title={contact.meta.title} description={contact.meta.description} path="/contact">
+  <Hero
+    variant="compact"
+    title={contact.hero.title}
+    lead={contact.hero.lead}
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Contact' }]}
+    actions={false}
+  />
+
+  {
+    bookingUrl && (
+      <section class="section section--alt" aria-labelledby="booking">
+        <div class="container">
+          <header class="section-head">
+            <span class="overline">Book online</span>
+            <h2 id="booking">{contact.booking.title}</h2>
+            <p>{contact.booking.text}</p>
+          </header>
+          <Button variant="primary" href={bookingUrl}>
+            {contact.booking.buttonLabel}
+          </Button>
+        </div>
+      </section>
+    )
+  }
+
+  <section class={`section${bookingUrl ? '' : ' section--alt'}`} aria-labelledby="contact-form">
+    <div class="container">
+      <header class="section-head">
+        <span class="overline">Message us</span>
+        <h2 id="contact-form">{contact.form.title}</h2>
+        <p>{contact.form.intro}</p>
+      </header>
+
+      {
+        !formEndpoint && (
+          <div style="margin-bottom: var(--space-4);">
+            <Notice variant="warning" title={contact.form.notConnectedTitle}>
+              {contact.form.notConnectedText}
+            </Notice>
+          </div>
+        )
+      }
+
+      <form
+        class="contact-form"
+        method="post"
+        action={formEndpoint || undefined}
+        novalidate={formEndpoint ? undefined : true}
+      >
+        <div class="contact-form__row">
+          <Input label="Name" name="name" type="text" required autocomplete="name" disabled={!formEndpoint} />
+          <Input label="Company" name="company" type="text" autocomplete="organization" disabled={!formEndpoint} />
+        </div>
+        <div class="contact-form__row">
+          <Input label="Role" name="role" type="text" autocomplete="organization-title" disabled={!formEndpoint} />
+          <Input label="Email" name="email" type="email" required autocomplete="email" disabled={!formEndpoint} />
+        </div>
+        <div class="contact-form__row">
+          <Input label="Phone" name="phone" type="tel" autocomplete="tel" disabled={!formEndpoint} />
+          <Select
+            label="Service interest"
+            name="service"
+            options={serviceSelectOptions}
+            required
+            disabled={!formEndpoint}
+          />
+        </div>
+        <Textarea
+          label="Message"
+          name="message"
+          rows={5}
+          required
+          placeholder="What is going wrong today, in a few lines?"
+          disabled={!formEndpoint}
+        />
+        <Checkbox
+          label={contact.form.consent}
+          name="consent"
+          required
+          disabled={!formEndpoint}
+        />
+        <div>
+          <Button variant="primary" type="submit" disabled={!formEndpoint}>
+            {contact.form.submitLabel}
+          </Button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  {
+    (site.email || site.phone || founderName) && (
+      <section class="section section--alt" aria-labelledby="direct">
+        <div class="container">
+          <header class="section-head">
+            <span class="overline">{contact.direct.overline}</span>
+            <h2 id="direct">{contact.direct.title}</h2>
+            <p>{contact.direct.note}</p>
+          </header>
+          <ul class="contact-direct">
+            {founderName && (
+              <li>
+                <strong>{founderName}</strong> — Founder
+              </li>
+            )}
+            {site.email && (
+              <li>
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+              </li>
+            )}
+            {site.phone && (
+              <li>
+                <a href={`tel:${site.phone.replace(/\s+/g, '')}`}>{site.phone}</a>
+              </li>
+            )}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 44rem;
+  }
+
+  .contact-form__row {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 640px) {
+    .contact-form__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .contact-direct {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+  }
+</style>

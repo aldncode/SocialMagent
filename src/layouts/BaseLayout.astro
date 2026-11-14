@@ -1,24 +1,50 @@
 ---
 // BaseLayout — fonts, global stylesheet, skip link, header, main landmark, footer.
+// SEO: unique title/description, canonical, Open Graph, JSON-LD Organization + Service.
 import '@fontsource-variable/ibm-plex-sans';
 import '@fontsource-variable/source-serif-4';
 import '../styles/main.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+import { services } from '../data/services';
 
 interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
+  path?: string;
   footerVariant?: 'light' | 'dark';
 }
 
 const {
   title,
-  description = 'Social Magent — digital marketing and analytics talent, training and hiring insights.',
+  description = 'Social Magent helps growing Indian businesses fill their calendar, automate repetitive work and keep their systems running securely.',
   noindex = false,
+  path = '/',
   footerVariant = 'dark',
 } = Astro.props;
+
+const siteUrl = 'https://socialmagent.online';
+const canonical = new URL(path, siteUrl).href;
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.brand || 'Social Magent',
+  url: siteUrl,
+  ...(site.email && { email: site.email }),
+  ...(site.phone && { telephone: site.phone }),
+  ...(site.linkedin && { sameAs: [site.linkedin] }),
+};
+
+const serviceJsonLd = services.map((service) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.title,
+  description: service.meta.description,
+  provider: { '@type': 'Organization', name: site.brand || 'Social Magent', url: siteUrl },
+}));
 ---
 
 <!doctype html>
@@ -28,7 +54,19 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.brand || 'Social Magent'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>

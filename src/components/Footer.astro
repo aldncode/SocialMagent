@@ -1,7 +1,9 @@
 ---
-// Footer — multi-column link groups, legal row, social links.
+// Footer — multi-column link groups, legal row, contact/social (hidden when unset).
 // variant="dark" for the dark surface context (default on this site).
 import Wordmark from './Wordmark.astro';
+import { site } from '../config/site';
+import { services, footerCopy } from '../data/services';
 
 interface Props {
   variant?: 'light' | 'dark';
@@ -9,13 +11,16 @@ interface Props {
 const { variant = 'dark' } = Astro.props;
 
 const groups = [
-  { title: 'Services', links: ['Marketing talent', 'Analytics talent', 'Team training'] },
-  { title: 'Insights', links: ['Articles', 'Guides', 'Checklists'] },
-  { title: 'Company', links: ['About', 'Careers', 'Contact'] },
+  {
+    title: footerCopy.groups.services,
+    links: services.map((service) => ({
+      label: service.navLabel,
+      href: `/services#${service.id}`,
+    })),
+  },
+  { title: footerCopy.groups.company, links: footerCopy.companyLinks },
+  { title: footerCopy.groups.legal, links: footerCopy.legalLinks },
 ];
-
-const legal = ['Privacy', 'Terms', 'Cookies', 'Accessibility'];
-const social = ['LinkedIn', 'X', 'YouTube'];
 ---
 
 <footer class="site-footer" data-surface={variant === 'dark' ? 'dark' : undefined}>
@@ -23,10 +28,18 @@ const social = ['LinkedIn', 'X', 'YouTube'];
     <div class="footer__top">
       <div class="footer__brand">
         <Wordmark />
-        <p>
-          Digital marketing and analytics talent, training and hiring insights.
-          Placeholder footer copy.
-        </p>
+        <p>{footerCopy.tagline}</p>
+        {
+          (site.email || site.phone) && (
+            <p class="caption">
+              {site.email && (
+                <a href={`mailto:${site.email}`}>{site.email}</a>
+              )}
+              {site.email && site.phone && ' · '}
+              {site.phone && <a href={`tel:${site.phone.replace(/\s+/g, '')}`}>{site.phone}</a>}
+            </p>
+          )
+        }
       </div>
       {
         groups.map((group) => (
@@ -35,7 +48,7 @@ const social = ['LinkedIn', 'X', 'YouTube'];
             <ul class="footer__links">
               {group.links.map((link) => (
                 <li>
-                  <a href="#">{link}</a>
+                  <a href={link.href}>{link.label}</a>
                 </li>
               ))}
             </ul>
@@ -46,22 +59,17 @@ const social = ['LinkedIn', 'X', 'YouTube'];
 
     <div class="footer__bottom">
       <div class="footer__legal">
-        <span>© {new Date().getFullYear()} Social Magent</span>
-        {
-          legal.map((item) => (
-            <a href="#">{item}</a>
-          ))
-        }
+        <span>© {new Date().getFullYear()} {site.brand || 'Social Magent'}</span>
       </div>
-      <div class="footer__social">
-        {
-          social.map((item) => (
-            <a href="#" aria-label={`${item} (placeholder link)`}>
-              {item.slice(0, 2)}
+      {
+        site.linkedin && (
+          <div class="footer__social">
+            <a href={site.linkedin} rel="noopener noreferrer" target="_blank" aria-label="LinkedIn">
+              LinkedIn
             </a>
-          ))
-        }
-      </div>
+          </div>
+        )
+      }
     </div>
   </div>
 </footer>

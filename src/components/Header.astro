@@ -4,51 +4,43 @@
 // The only interactivity on the page lives here (small vanilla JS).
 import Wordmark from './Wordmark.astro';
 import Button from './Button.astro';
+import { services } from '../data/services';
 
 const primaryNav = [
   {
     label: 'Services',
     id: 'mega-services',
     groups: [
-      { title: 'Talent', links: ['Marketing hires', 'Analytics hires', 'Team build-outs'] },
-      { title: 'Training', links: ['Team workshops', 'Individual courses', 'Certification tracks'] },
-      { title: 'Advisory', links: ['Hiring strategy', 'Skills benchmarking'] },
+      {
+        title: 'Services',
+        links: services.map((service) => ({
+          label: service.navLabel,
+          href: `/services#${service.id}`,
+        })),
+      },
     ],
     featured: {
-      overline: 'Featured',
-      title: 'Placeholder featured card',
-      text: 'A clearly-labelled placeholder for one highlighted insight.',
-    },
-  },
-  {
-    label: 'Insights',
-    id: 'mega-insights',
-    groups: [
-      { title: 'Articles', links: ['Marketing insights', 'Analytics insights', 'Hiring insights'] },
-      { title: 'Formats', links: ['Guides', 'Checklists', 'Interviews'] },
-      { title: 'Topics', links: ['Measurement', 'Content strategy', 'Careers'] },
-    ],
-    featured: {
-      overline: 'Latest insight',
-      title: 'Placeholder insight headline',
-      text: 'A clearly-labelled placeholder for the newest editorial item.',
+      overline: 'Next step',
+      title: 'Book a free 30-minute audit',
+      text: 'We map where you lose leads, time and money — no obligation.',
+      href: '/contact',
+      cta: 'Book a free audit',
     },
   },
 ];
 
 const flatNav = [
-  { label: 'Training', href: '/training' },
   { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const mobileGroups = [
   {
     label: 'Services',
-    links: ['Marketing hires', 'Analytics hires', 'Team build-outs', 'Team workshops', 'Hiring strategy'],
-  },
-  {
-    label: 'Insights',
-    links: ['Articles', 'Guides', 'Checklists', 'Topics'],
+    links: services.map((service) => ({
+      label: service.navLabel,
+      href: `/services#${service.id}`,
+    })),
   },
 ];
 ---
@@ -99,7 +91,7 @@ const mobileGroups = [
       </nav>
 
       <div class="main-bar__actions">
-        <Button href="/contact" small>Talk to us</Button>
+        <Button href="/contact" small>Book a free audit</Button>
         <button
           class="menu-toggle"
           type="button"
@@ -125,7 +117,7 @@ const mobileGroups = [
               <ul class="mega__list">
                 {group.links.map((link) => (
                   <li>
-                    <a href="#">{link}</a>
+                    <a href={link.href}>{link.label}</a>
                   </li>
                 ))}
               </ul>
@@ -135,6 +127,9 @@ const mobileGroups = [
             <span class="overline">{item.featured.overline}</span>
             <p class="mega__featured-title">{item.featured.title}</p>
             <p>{item.featured.text}</p>
+            <a class="btn btn--primary btn--sm" href={item.featured.href}>
+              {item.featured.cta}
+            </a>
           </div>
         </div>
       </div>
@@ -161,7 +156,7 @@ const mobileGroups = [
                   <ul class="mobile-menu__sub">
                     {group.links.map((link) => (
                       <li>
-                        <a href="#">{link}</a>
+                        <a href={link.href}>{link.label}</a>
                       </li>
                     ))}
                   </ul>
@@ -179,7 +174,7 @@ const mobileGroups = [
         </ul>
       </nav>
       <div class="mobile-menu__cta">
-        <Button href="/contact">Talk to us</Button>
+        <Button href="/contact">Book a free audit</Button>
       </div>
     </div>
   </div>
